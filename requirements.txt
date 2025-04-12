@@ -1,0 +1,8 @@
+streamlit
+transformers
+torch
+docx
+pdfminer.six
+python-docx
+requests
+pandas
