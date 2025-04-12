@@ -12,6 +12,7 @@ from utils.cv_reader import read_resume_from_file, preprocess_text
 from utils.github_reader import extract_github_links_from_text, collect_github_text
 from utils.constants import competency_list, profession_matrix, profession_names
 
+# Настройки страницы
 st.set_page_config(
     page_title="AI Резюме Анализ",
     layout="wide",
@@ -82,60 +83,73 @@ if uploaded_file:
             pred_vector, prob_vector = predict_competencies(full_text)
 
         # Вкладки
-        tab1, tab2 = st.tabs(["📊 Анализ", "📄 Текст резюме"])
+        tab1, tab2, tab3 = st.tabs(["📋 Опрос", "📊 Профессии", "📄 Резюме"])
 
+        # Вкладка Опрос
         with tab1:
-            st.markdown("## 📌 Результаты анализа")
+            st.subheader("📈 Ваш уровень владения по компетенциям (0–3):")
+            user_grades = []
+            for i, comp in enumerate(competency_list):
+                default = 1 if pred_vector[i] else 0
+                grade = st.radio(comp, [0, 1, 2, 3], index=default, horizontal=True, key=f"grade_{i}")
+                user_grades.append(grade)
+
+            st.session_state.user_grades = user_grades
+            st.success("✅ Грейды сохранены! Перейдите во вкладку 'Профессии'")
+
+        # Вкладка Профессии
+        with tab2:
+            if "user_grades" not in st.session_state:
+                st.warning("⚠️ Сначала заполните грейды во вкладке 'Опрос'")
+                st.stop()
+
+            user_vector = np.array(st.session_state.user_grades)
+
+            if len(user_vector) != profession_matrix.shape[0]:
+                st.error("⚠️ Количество компетенций не совпадает с матрицей профессий.")
+                logging.error(f"user_vector={len(user_vector)}, matrix_rows={profession_matrix.shape[0]}")
+                st.stop()
+
             col1, col2 = st.columns(2)
 
-            # Левая колонка — Компетенции и грейды
+            # Левая колонка: Компетенции с грейдами
             with col1:
-                st.markdown("### 🧠 Ваши компетенции")
-                user_grades = []
-                for i, comp in enumerate(competency_list):
-                    default = 1 if pred_vector[i] else 0
-                    try:
-                        grade = st.radio(comp, [0, 1, 2, 3], index=default, horizontal=True, key=f"grade_{i}")
-                        user_grades.append(grade)
-                    except Exception as e:
-                        logging.error(f"Ошибка при выборе грейда для '{comp}': {e}")
-                        st.error(f"❌ Ошибка при выборе грейда: {comp}")
-                        user_grades.append(0)
+                st.markdown("### 🧠 Ваши компетенции и грейды:")
+                for comp, grade in zip(competency_list, user_vector):
+                    st.markdown(f"- **{comp}**: {grade}")
 
-                if len(user_grades) != profession_matrix.shape[0]:
-                    st.error("⚠️ Количество введённых компетенций не совпадает с матрицей профессий.")
-                    logging.error(f"user_vector={len(user_grades)}, matrix_rows={profession_matrix.shape[0]}")
-                    st.stop()
-
-            # Правая колонка — Соответствие профессиям + визуализация
+            # Правая колонка: Соответствие профессиям + визуализация
             with col2:
                 st.markdown("### 👔 Соответствие профессиям")
-                user_vector = np.array(user_grades)
                 percentages = []
-
                 for i, prof in enumerate(profession_names):
                     required = profession_matrix[:, i]
                     matched = np.sum((user_vector >= required) & (required > 0))
                     total = np.sum(required > 0)
                     percent = (matched / total) * 100 if total else 0
                     percentages.append(percent)
-                    st.markdown(f"🔹 **{prof}** — {percent:.1f}%")
+                    st.markdown(f"🔹 **{prof}** — {percent:.1f}% соответствия")
 
-                st.markdown("### 📈 Круговая диаграмма")
+                st.markdown("### 📊 Визуализация в виде круговой диаграммы")
                 fig, ax = plt.subplots()
                 colors = sns.color_palette("pastel")[0:len(profession_names)]
-                ax.pie(
-                    percentages,
-                    labels=profession_names,
-                    autopct="%1.1f%%",
-                    startangle=90,
-                    colors=colors
-                )
+                ax.pie(percentages, labels=profession_names, autopct="%1.1f%%", startangle=90, colors=colors)
                 ax.axis("equal")
                 st.pyplot(fig)
 
-        # Вкладка — текст резюме
-        with tab2:
+            # Описание профессий
+            st.markdown("### 📘 Описание профессий")
+            profession_descriptions = {
+                "Аналитик данных": "Изучает и визуализирует данные, применяет ML для анализа.",
+                "Инженер данных": "Отвечает за хранение, очистку, подготовку и передачу данных.",
+                "Технический аналитик в ИИ": "Связывает бизнес и технологии ИИ, отвечает за требования.",
+                "Менеджер в ИИ": "Определяет стратегии внедрения ИИ и координирует команду."
+            }
+            for prof, desc in profession_descriptions.items():
+                st.markdown(f"**{prof}** — {desc}")
+
+        # Вкладка Текст резюме
+        with tab3:
             st.markdown("### 📄 Извлечённый текст резюме")
             st.text(full_text)
 
