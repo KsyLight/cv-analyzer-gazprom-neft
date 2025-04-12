@@ -14,7 +14,11 @@ def read_resume_from_file(file_path):
             doc = Document(file_path)
             return "\n".join([para.text for para in doc.paragraphs])
         elif file_path.lower().endswith('.pdf'):
-            return extract_text(file_path)
+            text = extract_text(file_path)
+            if not text or not text.strip():
+                logger.warning(f"PDF файл пустой или не содержит извлекаемого текста: {file_path}")
+                return None
+            return text
         else:
             logger.warning(f"Неподдерживаемый формат файла: {file_path}")
             return None
