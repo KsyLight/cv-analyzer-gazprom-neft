@@ -26,8 +26,8 @@ logging.basicConfig(filename="logs/errors.log", level=logging.ERROR,
 def load_model():
     login(token=st.secrets["HUGGINGFACE_TOKEN"])
     repo_id = "KsyLight/resume-ai-competency-model"
-    tokenizer = AutoTokenizer.from_pretrained(repo_id, use_auth_token=True)
-    model = AutoModelForSequenceClassification.from_pretrained(repo_id, use_auth_token=True)
+    tokenizer = AutoTokenizer.from_pretrained(repo_id, token=st.secrets["HUGGINGFACE_TOKEN"])
+    model = AutoModelForSequenceClassification.from_pretrained(repo_id, token=st.secrets["HUGGINGFACE_TOKEN"])
     model.eval()
     return tokenizer, model
 
