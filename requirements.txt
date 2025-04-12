@@ -6,3 +6,4 @@ python-docx
 pdfminer.six
 requests
 numpy
+huggingface-hub
