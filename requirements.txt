@@ -1,11 +1,11 @@
 streamlit
-torch
 transformers
-scikit-learn
-python-docx
-pdfminer.six
-requests
-numpy
 huggingface-hub
+torch
 matplotlib
 seaborn
+scikit-learn
+pdfminer.six
+python-docx
+requests
+numpy
