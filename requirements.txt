@@ -7,3 +7,5 @@ pdfminer.six
 requests
 numpy
 huggingface-hub
+matplotlib
+seaborn
