@@ -13,15 +13,22 @@ from utils.github_reader import extract_github_links_from_text, collect_github_t
 from utils.constants import competency_list, profession_matrix, profession_names
 
 # Страница
-st.set_page_config(page_title="AI Резюме Анализ", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(
+    page_title="AI Резюме Анализ",
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
 st.title("💼 AI Анализ Резюме и Компетенций")
 
 # Логирование
 os.makedirs("logs", exist_ok=True)
-logging.basicConfig(filename="logs/errors.log", level=logging.ERROR,
-                    format="%(asctime)s — %(levelname)s — %(message)s")
+logging.basicConfig(
+    filename="logs/errors.log",
+    level=logging.ERROR,
+    format="%(asctime)s — %(levelname)s — %(message)s"
+)
 
-# Модель
+# Загрузка модели
 @st.cache_resource
 def load_model():
     login(token=st.secrets["HUGGINGFACE_TOKEN"])
@@ -41,6 +48,7 @@ def predict_competencies(text):
     binary_preds = (probs > 0.5).astype(int)
     return binary_preds, probs
 
+# Загрузка резюме
 uploaded_file = st.file_uploader("📤 Загрузите резюме (PDF, DOCX, TXT)", type=["pdf", "docx", "txt"])
 
 if uploaded_file:
@@ -59,6 +67,7 @@ if uploaded_file:
 
             gh_links = extract_github_links_from_text(base_text)
             github_text = ""
+
             if gh_links:
                 st.markdown("🔗 <b>GitHub-ссылки:</b>", unsafe_allow_html=True)
                 for link in gh_links:
@@ -80,7 +89,7 @@ if uploaded_file:
             if pred_vector[i]:
                 st.markdown(f"- ✅ {competency_list[i]} — **{prob:.2f}**")
 
-        # Грейды (radio)
+        # Грейды
         st.markdown("---")
         st.subheader("📈 Ваш уровень владения (0–3):")
         user_grades = []
@@ -93,7 +102,7 @@ if uploaded_file:
             except Exception as e:
                 logging.error(f"Ошибка при выборе грейда для '{comp}': {e}")
                 st.error(f"❌ Ошибка при выборе грейда для: {comp}")
-                user_grades.append(0)  # по умолчанию
+                user_grades.append(0)
 
         # Проверка длины
         if len(user_grades) != profession_matrix.shape[0]:
@@ -119,9 +128,24 @@ if uploaded_file:
             # Тепловая карта
             st.markdown("### 📊 Визуализация соответствия")
             fig, ax = plt.subplots(figsize=(6, 1.5))
-            sns.heatmap([percentages], annot=True, fmt=".1f", cmap="YlGnBu", xticklabels=profession_names, yticklabels=["%"])
+            sns.heatmap(
+                [percentages],
+                annot=True,
+                fmt=".1f",
+                cmap="YlGnBu",
+                xticklabels=profession_names,
+                yticklabels=["%"]
+            )
             st.pyplot(fig)
 
         except Exception as e:
             st.error("🚫 Ошибка при расчёте соответствия профессиям.")
             logging.error(f"Ошибка в блоке соответствия профессиям: {e}")
+
+    except Exception as e:
+        st.error("🚫 Не удалось обработать файл.")
+        logging.error(f"Общая ошибка: {e}")
+
+    finally:
+        if os.path.exists(tmp_file_path):
+            os.remove(tmp_file_path)
