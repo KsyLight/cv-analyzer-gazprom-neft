@@ -84,44 +84,44 @@ if uploaded_file:
         st.markdown("---")
         st.subheader("📈 Ваш уровень владения (0–3):")
         user_grades = []
+
         for i, comp in enumerate(competency_list):
             default = 1 if pred_vector[i] else 0
-            grade = st.radio(comp, [0, 1, 2, 3], index=default, horizontal=True, key=f"grade_{i}")
-            user_grades.append(grade)
+            try:
+                grade = st.radio(comp, [0, 1, 2, 3], index=default, horizontal=True, key=f"grade_{i}")
+                user_grades.append(grade)
+            except Exception as e:
+                logging.error(f"Ошибка при выборе грейда для '{comp}': {e}")
+                st.error(f"❌ Ошибка при выборе грейда для: {comp}")
+                user_grades.append(0)  # по умолчанию
+
+        # Проверка длины
+        if len(user_grades) != profession_matrix.shape[0]:
+            st.error("⚠️ Количество введённых компетенций не совпадает с матрицей профессий.")
+            logging.error(f"user_vector={len(user_grades)}, matrix_rows={profession_matrix.shape[0]}")
+            st.stop()
 
         # Соответствие профессиям
         st.markdown("---")
         st.subheader("👔 Соответствие профессиям:")
-        user_vector = np.array(user_grades)
-        percentages = []
+        try:
+            user_vector = np.array(user_grades)
+            percentages = []
 
-        for i, prof in enumerate(profession_names):
-            required = profession_matrix[:, i]
+            for i, prof in enumerate(profession_names):
+                required = profession_matrix[:, i]
             matched = np.sum((user_vector >= required) & (required > 0))
-            total = np.sum(required > 0)
-            percent = (matched / total) * 100 if total else 0
-            percentages.append(percent)
-            st.write(f"🔹 **{prof}** — {percent:.1f}%")
+                total = np.sum(required > 0)
+                percent = (matched / total) * 100 if total else 0
+                percentages.append(percent)
+                st.write(f"🔹 **{prof}** — {percent:.1f}%")
 
-        # Тепловая карта
-        st.markdown("### 📊 Визуализация соответствия")
-        fig, ax = plt.subplots(figsize=(6, 1.5))
-        sns.heatmap([percentages], annot=True, fmt=".1f", cmap="YlGnBu", xticklabels=profession_names, yticklabels=["%"])
-        st.pyplot(fig)
+            # Тепловая карта
+            st.markdown("### 📊 Визуализация соответствия")
+            fig, ax = plt.subplots(figsize=(6, 1.5))
+            sns.heatmap([percentages], annot=True, fmt=".1f", cmap="YlGnBu", xticklabels=profession_names, yticklabels=["%"])
+            st.pyplot(fig)
 
-        # Рекомендации
-        st.markdown("---")
-        st.subheader("🔮 Рекомендации (будет позже)")
-        st.info("Будут предложены карьерные треки и обучающие направления.")
-
-        # Полный текст
-        with st.expander("📄 Посмотреть весь текст резюме"):
-            st.text(full_text)
-
-    except Exception as e:
-        st.error("🚫 Ошибка при обработке.")
-        logging.error(f"Ошибка: {e}")
-
-    finally:
-        if os.path.exists(tmp_file_path):
-            os.remove(tmp_file_path)
+        except Exception as e:
+            st.error("🚫 Ошибка при расчёте соответствия профессиям.")
+            logging.error(f"Ошибка в блоке соответствия профессиям: {e}")
