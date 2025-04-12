@@ -110,7 +110,7 @@ if uploaded_file:
 
             for i, prof in enumerate(profession_names):
                 required = profession_matrix[:, i]
-            matched = np.sum((user_vector >= required) & (required > 0))
+                matched = np.sum((user_vector >= required) & (required > 0))
                 total = np.sum(required > 0)
                 percent = (matched / total) * 100 if total else 0
                 percentages.append(percent)
