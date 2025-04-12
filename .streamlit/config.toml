@@ -5,3 +5,6 @@ enableCORS = false
 enableXsrfProtection = false
 runOnSave = false
 watcherType = "none"
+
+# [theme]
+# base = "light"
