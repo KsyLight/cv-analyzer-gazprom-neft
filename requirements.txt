@@ -1,8 +1,8 @@
 streamlit
-transformers
 torch
-docx
-pdfminer.six
+transformers
+scikit-learn
 python-docx
+pdfminer.six
 requests
-pandas
+numpy
