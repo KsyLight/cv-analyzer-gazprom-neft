@@ -188,34 +188,33 @@ if uploaded_file:
                 Работает с системами хранения и анализа данных, обеспечивает их эффективное функционирование, а также поддержку систем версионирования данных."""
                 }
 
-# Упорядочиваем профессии по убыванию процента соответствия
-sorted_professions = sorted(
-    zip(profession_names, percentages),
-    key=lambda x: -x[1]
-)
+                # Упорядочиваем профессии по убыванию процента соответствия
+                sorted_professions = sorted(
+                    zip(profession_names, percentages),
+                    key=lambda x: -x[1]
+                )
 
-# Сопоставляем названия профессий с полными именами (с англ. эквивалентом)
-prof_name_mapping = {
-    "Аналитик данных": "Аналитик данных (Data scientist, ML engineer)",
-    "Менеджер в ИИ": "Менеджер в ИИ (Manager in AI)",
-    "Технический аналитик в ИИ": "Технический аналитик в ИИ (Technical analyst in AI)",
-    "Инженер данных": "Инженер данных (Data engineer)"
-}
+                # Сопоставляем названия профессий с полными именами (с англ. эквивалентом)
+                prof_name_mapping = {
+                    "Аналитик данных": "Аналитик данных (Data scientist, ML engineer)",
+                    "Менеджер в ИИ": "Менеджер в ИИ (Manager in AI)",
+                    "Технический аналитик в ИИ": "Технический аналитик в ИИ (Technical analyst in AI)",
+                    "Инженер данных": "Инженер данных (Data engineer)"
+                }
 
-# Формируем таблицу
-table_data = {
-    "Профессия": [],
-    "Описание": []
-}
+                # Формируем таблицу
+                table_data = {
+                    "Профессия": [],
+                    "Описание": []
+                }
 
-for prof, _ in sorted_professions:
-    full_name = prof_name_mapping.get(prof, prof)
-    table_data["Профессия"].append(full_name)
-    table_data["Описание"].append(descriptions.get(full_name, "—"))
+                for prof, _ in sorted_professions:
+                    full_name = prof_name_mapping.get(prof, prof)
+                    table_data["Профессия"].append(full_name)
+                    table_data["Описание"].append(descriptions.get(full_name, "—"))
 
-st.dataframe(table_data, use_container_width=True)
-
-
+                st.dataframe(table_data, use_container_width=True)
+                
         # Вкладка Резюме
         with tab3:
             st.markdown("### Извлечённый текст резюме")
