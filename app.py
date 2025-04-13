@@ -7,7 +7,6 @@ import os
 import logging
 import matplotlib.pyplot as plt
 import seaborn as sns
-from lime.lime_text import LimeTextExplainer
 
 from utils.cv_reader import read_resume_from_file, preprocess_text
 from utils.github_reader import extract_github_links_from_text, collect_github_text
@@ -29,6 +28,7 @@ logging.basicConfig(
     format="%(asctime)s — %(levelname)s — %(message)s"
 )
 
+# Загрузка модели
 @st.cache_resource
 def load_model():
     login(token=st.secrets["HUGGINGFACE_TOKEN"])
@@ -40,6 +40,7 @@ def load_model():
 
 tokenizer, model = load_model()
 
+# Предсказание компетенций
 def predict_competencies(text):
     inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True, max_length=512)
     with torch.no_grad():
@@ -47,13 +48,6 @@ def predict_competencies(text):
     probs = torch.sigmoid(outputs.logits).squeeze().cpu().numpy()
     binary_preds = (probs > 0.5).astype(int)
     return binary_preds, probs
-
-def lime_predict(texts):
-    inputs = tokenizer(texts, return_tensors="pt", padding=True, truncation=True, max_length=512)
-    with torch.no_grad():
-        outputs = model(**inputs)
-    probs = torch.sigmoid(outputs.logits).cpu().numpy()
-    return probs
 
 # Загрузка файла
 uploaded_file = st.file_uploader("📤 Загрузите резюме (PDF, DOCX, TXT)", type=["pdf", "docx", "txt"])
@@ -92,14 +86,17 @@ if uploaded_file:
         # Вкладки
         tab1, tab2, tab3 = st.tabs(["Опрос", "Профессии", "Резюме"])
 
-        # Вкладка Опрос
+        # Вкладка Опрос (две колонки)
         with tab1:
             st.subheader("Ваш уровень владения по компетенциям (0–3):")
             user_grades = []
+            col1, col2 = st.columns(2)
+
             for i, comp in enumerate(competency_list):
                 default = 1 if pred_vector[i] else 0
-                grade = st.radio(comp, [0, 1, 2, 3], index=default, horizontal=True, key=f"grade_{i}")
-                user_grades.append(grade)
+                with col1 if i % 2 == 0 else col2:
+                    grade = st.radio(comp, [0, 1, 2, 3], index=default, horizontal=True, key=f"grade_{i}")
+                    user_grades.append(grade)
 
             st.session_state.user_grades = user_grades
             st.success("✅ Грейды сохранены! Перейдите во вкладку 'Профессии'")
@@ -135,7 +132,7 @@ if uploaded_file:
                     percentages.append(percent)
                     st.markdown(f"🔹 **{prof}** — {percent:.1f}% соответствия")
 
-                st.markdown("### Визуализация в виде круговой диаграммы")
+                st.markdown("### 📊 Круговая диаграмма")
                 fig, ax = plt.subplots()
                 colors = sns.color_palette("pastel")[0:len(profession_names)]
                 ax.pie(percentages, labels=profession_names, autopct="%1.1f%%", startangle=90, colors=colors)
@@ -143,34 +140,19 @@ if uploaded_file:
                 st.pyplot(fig)
 
                 st.markdown("### 📘 Описание профессий")
-                profession_descriptions = {
+                descriptions = {
                     "Аналитик данных": "Изучает и визуализирует данные, применяет ML для анализа.",
                     "Инженер данных": "Отвечает за хранение, очистку, подготовку и передачу данных.",
                     "Технический аналитик в ИИ": "Связывает бизнес и технологии ИИ, отвечает за требования.",
                     "Менеджер в ИИ": "Определяет стратегии внедрения ИИ и координирует команду."
                 }
-                for prof, desc in profession_descriptions.items():
+                for prof, desc in descriptions.items():
                     st.markdown(f"**{prof}** — {desc}")
 
         # Вкладка Резюме
         with tab3:
             st.markdown("### 📄 Извлечённый текст резюме")
             st.text(full_text)
-
-            st.markdown("### 🧠 Интерпретация модели с LIME")
-            try:
-                explainer = LimeTextExplainer(class_names=competency_list)
-                explanation = explainer.explain_instance(
-                    full_text,
-                    lime_predict,
-                    num_features=10,
-                    top_labels=1
-                )
-                fig = explanation.as_pyplot_figure()
-                st.pyplot(fig)
-            except Exception as e:
-                st.warning("⚠️ Не удалось построить интерпретацию LIME.")
-                logging.error(f"LIME error: {e}")
 
     except Exception as e:
         st.error("🚫 Не удалось обработать файл.")
