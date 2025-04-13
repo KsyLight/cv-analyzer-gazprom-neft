@@ -7,6 +7,9 @@ import os
 import logging
 import matplotlib.pyplot as plt
 import seaborn as sns
+import mplcyberpunk
+
+plt.style.use('cyberpunk')
 
 from utils.cv_reader import read_resume_from_file, preprocess_text
 from utils.github_reader import extract_github_links_from_text, collect_github_text

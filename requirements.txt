@@ -9,3 +9,4 @@ pdfminer.six
 python-docx
 requests
 numpy
+mplcyberpunk
