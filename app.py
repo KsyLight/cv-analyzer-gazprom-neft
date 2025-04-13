@@ -18,7 +18,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed"
 )
-st.title("💼 Анализ резюме по матрице Альянса ИИ")
+st.title("Анализ резюме по матрице Альянса ИИ")
 
 # Логирование
 os.makedirs("logs", exist_ok=True)
