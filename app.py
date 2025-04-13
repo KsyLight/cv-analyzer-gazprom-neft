@@ -117,7 +117,7 @@ if uploaded_file:
             col1, col2 = st.columns(2)
 
             with col1:
-                st.markdown("### 🧠 Ваши компетенции и грейды:")
+                st.markdown("### Ваши компетенции и грейды:")
 
                 # Легенда
                 st.markdown("""
@@ -136,7 +136,7 @@ if uploaded_file:
                     st.markdown(f"{color} **{comp}** — грейд: **{grade}**")
 
             with col2:
-                st.markdown("### 👔 Соответствие профессиям")
+                st.markdown("### Соответствие профессиям")
                 percentages = []
                 for i, prof in enumerate(profession_names):
                     required = profession_matrix[:, i]
@@ -146,14 +146,14 @@ if uploaded_file:
                     percentages.append(percent)
                     st.markdown(f"🔹 **{prof}** — {percent:.1f}% соответствия")
 
-                st.markdown("### 📊 Круговая диаграмма")
+                st.markdown("### Круговая диаграмма")
                 fig, ax = plt.subplots()
                 colors = sns.color_palette("pastel")[0:len(profession_names)]
                 ax.pie(percentages, labels=profession_names, autopct="%1.1f%%", startangle=90, colors=colors)
                 ax.axis("equal")
                 st.pyplot(fig)
 
-                st.markdown("### 📘 Описание профессий")
+                st.markdown("### Описание профессий")
                 descriptions = {
                     "Аналитик данных": "Изучает и визуализирует данные, применяет ML для анализа.",
                     "Инженер данных": "Отвечает за хранение, очистку, подготовку и передачу данных.",
