@@ -9,4 +9,3 @@ pdfminer.six
 python-docx
 requests
 numpy
-lime
