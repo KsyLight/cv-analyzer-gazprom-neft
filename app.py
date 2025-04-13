@@ -157,7 +157,6 @@ if uploaded_file:
                 mplcyberpunk.add_glow_effects()
                 st.pyplot(fig)
 
-                # Таблица описаний
                 st.markdown("### Описание профессий")
                 descriptions = {
                     "Аналитик данных (Data scientist, ML engineer)": """Специалист, который работает с данными компании, анализирует их и разрабатывает решения на основе ИИ...
@@ -177,13 +176,10 @@ if uploaded_file:
                     "Инженер данных": "Инженер данных (Data engineer)"
                 }
 
-                table_data = {"Профессия": [], "Описание": []}
                 for prof, _ in sorted_percentages:
                     full_name = prof_name_mapping.get(prof, prof)
-                    table_data["Профессия"].append(full_name)
-                    table_data["Описание"].append(descriptions.get(full_name, "—"))
-
-                st.dataframe(table_data, use_container_width=True)
+                    desc = descriptions.get(full_name, "—")
+                    st.markdown(f"**{full_name}**\n\n{desc}\n")
 
         # Вкладка Резюме
         with tab3:
