@@ -152,8 +152,15 @@ if uploaded_file:
         # Вкладка Резюме
         with tab3:
             st.markdown("### 📄 Извлечённый текст резюме")
-            st.text(full_text)
+            with st.expander("📝 Текст из файла резюме"):
+                st.text(base_text)
 
+            if github_text.strip():
+                with st.expander("🧑‍💻 Текст, собранный с GitHub"):
+                    st.text(github_text)
+            else:
+                st.info("GitHub-ссылки не найдены или не удалось получить содержимое.")
+                
     except Exception as e:
         st.error("🚫 Не удалось обработать файл.")
         logging.error(f"Общая ошибка: {e}")
