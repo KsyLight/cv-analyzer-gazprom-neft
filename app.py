@@ -145,21 +145,18 @@ if uploaded_file:
 
                 st.markdown("### Круговая диаграмма")
                 fig, ax = plt.subplots()
-                colors = sns.color_palette("pastel")[0:len(profession_names)]
-                wedges, texts, autotexts = ax.pie(
-                    percentages,
-                    labels=profession_names,
-                    autopct="%1.1f%%",
-                    startangle=90,
-                    colors=colors
-                )
+                labels = [prof for prof, _ in sorted_percentages]
+                values = [percent for _, percent in sorted_percentages]
+                colors = sns.color_palette("pastel")[0:len(sorted_percentages)]
+                wedges, texts, autotexts = ax.pie(values, labels=labels, autopct="%1.1f%%", startangle=90, colors=colors)
                 
                 for autotext in autotexts:
                     autotext.set_color("black")
-                
+                    
                 ax.axis("equal")
+                mplcyberpunk.add_glow_effects()
                 st.pyplot(fig)
-                
+
                 # Таблица описаний
                 st.markdown("### Описание профессий")
                 descriptions = {
