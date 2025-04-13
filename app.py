@@ -7,6 +7,7 @@ import os
 import logging
 import matplotlib.pyplot as plt
 import seaborn as sns
+from lime.lime_text import LimeTextExplainer
 
 from utils.cv_reader import read_resume_from_file, preprocess_text
 from utils.github_reader import extract_github_links_from_text, collect_github_text
@@ -14,11 +15,11 @@ from utils.constants import competency_list, profession_matrix, profession_names
 
 # Настройки страницы
 st.set_page_config(
-    page_title="AI Резюме Анализ",
+    page_title="Анализ резюме по матрице Альянса ИИ",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
-st.title("💼 AI Анализ Резюме и Компетенций")
+st.title("💼 Анализ резюме по матрице Альянса ИИ")
 
 # Логирование
 os.makedirs("logs", exist_ok=True)
@@ -28,7 +29,6 @@ logging.basicConfig(
     format="%(asctime)s — %(levelname)s — %(message)s"
 )
 
-# Загрузка модели
 @st.cache_resource
 def load_model():
     login(token=st.secrets["HUGGINGFACE_TOKEN"])
@@ -47,6 +47,13 @@ def predict_competencies(text):
     probs = torch.sigmoid(outputs.logits).squeeze().cpu().numpy()
     binary_preds = (probs > 0.5).astype(int)
     return binary_preds, probs
+
+def lime_predict(texts):
+    inputs = tokenizer(texts, return_tensors="pt", padding=True, truncation=True, max_length=512)
+    with torch.no_grad():
+        outputs = model(**inputs)
+    probs = torch.sigmoid(outputs.logits).cpu().numpy()
+    return probs
 
 # Загрузка файла
 uploaded_file = st.file_uploader("📤 Загрузите резюме (PDF, DOCX, TXT)", type=["pdf", "docx", "txt"])
@@ -83,11 +90,11 @@ if uploaded_file:
             pred_vector, prob_vector = predict_competencies(full_text)
 
         # Вкладки
-        tab1, tab2, tab3 = st.tabs(["📋 Опрос", "📊 Профессии", "📄 Резюме"])
+        tab1, tab2, tab3 = st.tabs(["Опрос", "Профессии", "Резюме"])
 
         # Вкладка Опрос
         with tab1:
-            st.subheader("📈 Ваш уровень владения по компетенциям (0–3):")
+            st.subheader("Ваш уровень владения по компетенциям (0–3):")
             user_grades = []
             for i, comp in enumerate(competency_list):
                 default = 1 if pred_vector[i] else 0
@@ -112,13 +119,11 @@ if uploaded_file:
 
             col1, col2 = st.columns(2)
 
-            # Левая колонка: Компетенции и грейды
             with col1:
                 st.markdown("### 🧠 Ваши компетенции и грейды:")
                 for comp, grade in zip(competency_list, user_vector):
                     st.markdown(f"- **{comp}**: {grade}")
 
-            # Правая колонка: Профессии, диаграмма, описание
             with col2:
                 st.markdown("### 👔 Соответствие профессиям")
                 percentages = []
@@ -130,7 +135,7 @@ if uploaded_file:
                     percentages.append(percent)
                     st.markdown(f"🔹 **{prof}** — {percent:.1f}% соответствия")
 
-                st.markdown("### 📊 Визуализация в виде круговой диаграммы")
+                st.markdown("### Визуализация в виде круговой диаграммы")
                 fig, ax = plt.subplots()
                 colors = sns.color_palette("pastel")[0:len(profession_names)]
                 ax.pie(percentages, labels=profession_names, autopct="%1.1f%%", startangle=90, colors=colors)
@@ -151,6 +156,21 @@ if uploaded_file:
         with tab3:
             st.markdown("### 📄 Извлечённый текст резюме")
             st.text(full_text)
+
+            st.markdown("### 🧠 Интерпретация модели с LIME")
+            try:
+                explainer = LimeTextExplainer(class_names=competency_list)
+                explanation = explainer.explain_instance(
+                    full_text,
+                    lime_predict,
+                    num_features=10,
+                    top_labels=1
+                )
+                fig = explanation.as_pyplot_figure()
+                st.pyplot(fig)
+            except Exception as e:
+                st.warning("⚠️ Не удалось построить интерпретацию LIME.")
+                logging.error(f"LIME error: {e}")
 
     except Exception as e:
         st.error("🚫 Не удалось обработать файл.")
