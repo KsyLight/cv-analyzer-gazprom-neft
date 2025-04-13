@@ -84,7 +84,7 @@ if uploaded_file:
             pred_vector, prob_vector = predict_competencies(full_text)
 
         # Вкладки
-        tab1, tab2, tab3 = st.tabs(["Опрос", "Профессии"])
+        tab1, tab2, tab3 = st.tabs(["Опрос", "Профессии", "Резюме"])
 
         # Вкладка Опрос (две колонки)
         with tab1:
@@ -148,6 +148,12 @@ if uploaded_file:
                 }
                 for prof, desc in descriptions.items():
                     st.markdown(f"**{prof}** — {desc}")
+
+        # Вкладка Резюме
+        with tab3:
+            st.markdown("### 📄 Извлечённый текст резюме")
+            st.text(full_text)
+
     except Exception as e:
         st.error("🚫 Не удалось обработать файл.")
         logging.error(f"Общая ошибка: {e}")
