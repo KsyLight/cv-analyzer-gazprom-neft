@@ -67,18 +67,18 @@ if uploaded_file:
                 st.stop()
 
             gh_links = extract_github_links_from_text(base_text)
-            github_text = ""
+            github_text_raw = ""
             if gh_links:
                 st.markdown("🔗 <b>GitHub-ссылки:</b>", unsafe_allow_html=True)
                 for link in gh_links:
                     st.markdown(f"- [{link}]({link})")
                     try:
-                        github_text += " " + preprocess_text(collect_github_text(link))
+                        github_text_raw += " " + collect_github_text(link)  # не preprocess!
                     except Exception as e:
                         st.warning(f"⚠️ Ошибка при загрузке {link}")
                         logging.error(f"GitHub fetch error ({link}): {e}")
 
-            full_text = preprocess_text(base_text + " " + github_text)
+            full_text = preprocess_text(base_text + " " + github_text_raw)
 
         with st.spinner("🤖 Анализ..."):
             pred_vector, prob_vector = predict_competencies(full_text)
@@ -118,8 +118,22 @@ if uploaded_file:
 
             with col1:
                 st.markdown("### 🧠 Ваши компетенции и грейды:")
-                for comp, grade in zip(competency_list, user_vector):
-                    st.markdown(f"- **{comp}**: {grade}")
+
+                # Легенда
+                st.markdown("""
+                <div style='font-size: 15px; margin-bottom: 10px;'>
+                    <b>🟩 — грейд 3</b> (высокий уровень)<br>
+                    <b>🟨 — грейд 2</b> (уверенный уровень)<br>
+                    <b>🟦 — грейд 1</b> (начальный уровень)<br>
+                    <b>⬜️ — грейд 0</b> (отсутствует)
+                </div>
+                """, unsafe_allow_html=True)
+
+                # Сортировка по грейду
+                sorted_competencies = sorted(zip(competency_list, user_vector), key=lambda x: -x[1])
+                for comp, grade in sorted_competencies:
+                    color = {3: "🟩", 2: "🟨", 1: "🟦", 0: "⬜️"}.get(grade, "⬜️")
+                    st.markdown(f"{color} **{comp}** — грейд: **{grade}**")
 
             with col2:
                 st.markdown("### 👔 Соответствие профессиям")
@@ -155,12 +169,12 @@ if uploaded_file:
             with st.expander("📝 Текст из файла резюме"):
                 st.text(base_text)
 
-            if github_text.strip():
+            if github_text_raw.strip():
                 with st.expander("🧑‍💻 Текст, собранный с GitHub"):
-                    st.text(github_text)
+                    st.text(github_text_raw)
             else:
                 st.info("GitHub-ссылки не найдены или не удалось получить содержимое.")
-                
+
     except Exception as e:
         st.error("🚫 Не удалось обработать файл.")
         logging.error(f"Общая ошибка: {e}")
