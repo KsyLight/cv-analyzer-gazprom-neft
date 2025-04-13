@@ -84,7 +84,7 @@ if uploaded_file:
             pred_vector, prob_vector = predict_competencies(full_text)
 
         # Вкладки
-        tab1, tab2, tab3 = st.tabs(["Опрос", "Профессии", "Резюме"])
+        tab1, tab2, tab3 = st.tabs(["Опрос", "Профессии"])
 
         # Вкладка Опрос (две колонки)
         with tab1:
