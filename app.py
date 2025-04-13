@@ -165,6 +165,53 @@ if uploaded_file:
                 }
                 for prof, desc in descriptions.items():
                     st.markdown(f"**{prof}** — {desc}")
+            with col2:
+                st.markdown("### 👔 Соответствие профессиям")
+
+                # Расчёт процентов и сортировка
+                percentages = []
+                for i, prof in enumerate(profession_names):
+                    required = profession_matrix[:, i]
+                    matched = np.sum((user_vector >= required) & (required > 0))
+                    total = np.sum(required > 0)
+                    percent = (matched / total) * 100 if total else 0
+                    percentages.append((prof, percent))
+
+                sorted_percentages = sorted(percentages, key=lambda x: x[1], reverse=True)
+
+                for prof, percent in sorted_percentages:
+                    st.markdown(f"🔹 **{prof}** — {percent:.1f}% соответствия")
+
+                # Круговая диаграмма
+                st.markdown("### 📊 Круговая диаграмма")
+                fig, ax = plt.subplots()
+                labels = [prof for prof, _ in sorted_percentages]
+                values = [percent for _, percent in sorted_percentages]
+                colors = sns.color_palette("pastel")[0:len(sorted_percentages)]
+
+                ax.pie(values, labels=labels, autopct="%1.1f%%", startangle=90, colors=colors)
+                ax.axis("equal")
+                mplcyberpunk.add_glow_effects()
+                st.pyplot(fig)
+
+                # Описание профессий в таблице
+                st.markdown("### 📘 Описание профессий")
+                descriptions = {
+                    "Аналитик данных": "Изучает и визуализирует данные, применяет ML для анализа.",
+                    "Инженер данных": "Отвечает за хранение, очистку, подготовку и передачу данных.",
+                    "Технический аналитик в ИИ": "Связывает бизнес и технологии ИИ, отвечает за требования.",
+                    "Менеджер в ИИ": "Определяет стратегии внедрения ИИ и координирует команду."
+                }
+
+                table_data = {
+                    "Профессия": [],
+                    "Описание": []
+                }
+                for prof in labels:
+                    table_data["Профессия"].append(prof)
+                    table_data["Описание"].append(descriptions.get(prof, "—"))
+
+                st.table(table_data)
 
         # Вкладка Резюме
         with tab3:
