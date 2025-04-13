@@ -148,12 +148,6 @@ if uploaded_file:
                 }
                 for prof, desc in descriptions.items():
                     st.markdown(f"**{prof}** — {desc}")
-
-        # Вкладка Резюме
-        with tab3:
-            st.markdown("### 📄 Извлечённый текст резюме")
-            st.text(full_text)
-
     except Exception as e:
         st.error("🚫 Не удалось обработать файл.")
         logging.error(f"Общая ошибка: {e}")
