@@ -75,7 +75,7 @@ if uploaded_file:
             else:
                 st.info("GitHub-ссылки не найдены.")
 
-            # Обязательно сохраняем в session_state для дальнейшего отображения
+            # Сохраняем текст GitHub в session_state для дальнейшего использования
             st.session_state["github_text_raw"] = github_text_raw
 
             full_text = preprocess_text(base_text + " " + github_text_raw)
@@ -150,6 +150,7 @@ if uploaded_file:
                 colors = sns.color_palette("pastel")[0:len(sorted_percentages)]
                 wedges, texts, autotexts = ax.pie(values, labels=labels, autopct="%1.1f%%", startangle=90, colors=colors)
                 
+                # Устанавливаем тёмный цвет для числовых надписей внутри диаграммы
                 for autotext in autotexts:
                     autotext.set_color("black")
                     
@@ -176,10 +177,16 @@ if uploaded_file:
                     "Инженер данных": "Инженер данных (Data engineer)"
                 }
 
+                # Выводим красиво оформленные блоки с описанием для каждой профессии
                 for prof, _ in sorted_percentages:
                     full_name = prof_name_mapping.get(prof, prof)
                     desc = descriptions.get(full_name, "—")
-                    st.markdown(f"**{full_name}**\n\n{desc}\n")
+                    st.markdown(f"""
+                    <div style="border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 10px;">
+                        <h4 style="margin: 0 0 5px 0;">{full_name}</h4>
+                        <p style="margin: 0;">{desc}</p>
+                    </div>
+                    """, unsafe_allow_html=True)
 
         # Вкладка Резюме
         with tab3:
