@@ -116,7 +116,7 @@ if uploaded_file:
             with col1:
                 st.markdown("### Ваши компетенции и грейды:")
                 st.markdown("""
-                <div style="border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 10px;">
+                <div style="border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 10px; width: 80%;">
                     <p style="font-size: 15px; margin: 0;">
                         <b>🟩 — грейд 3</b> (высокий уровень)<br>
                         <b>🟨 — грейд 2</b> (уверенный уровень)<br>
