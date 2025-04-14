@@ -10,3 +10,4 @@ python-docx
 requests
 numpy
 mplcyberpunk
+lime

@@ -14,6 +14,7 @@ plt.style.use('cyberpunk')
 from utils.cv_reader import read_resume_from_file, preprocess_text
 from utils.github_reader import extract_github_links_from_text, collect_github_text
 from utils.constants import competency_list, profession_matrix, profession_names
+from utils.explanation import get_lime_explanation
 
 # Настройки страницы
 st.set_page_config(page_title="Анализ резюме по матрице Альянса ИИ", layout="wide", initial_sidebar_state="collapsed")
@@ -23,7 +24,6 @@ st.title("Анализ резюме по матрице Альянса ИИ")
 os.makedirs("logs", exist_ok=True)
 logging.basicConfig(filename="logs/errors.log", level=logging.ERROR, format="%(asctime)s — %(levelname)s — %(message)s")
 
-# Загрузка модели
 @st.cache_resource
 def load_model():
     login(token=st.secrets["HUGGINGFACE_TOKEN"])
@@ -43,7 +43,6 @@ def predict_competencies(text):
     binary_preds = (probs > 0.5).astype(int)
     return binary_preds, probs
 
-# Загрузка файла
 uploaded_file = st.file_uploader("📤 Загрузите резюме (PDF, DOCX, TXT)", type=["pdf", "docx", "txt"])
 
 if uploaded_file:
@@ -75,9 +74,7 @@ if uploaded_file:
             else:
                 st.info("GitHub-ссылки не найдены.")
 
-            # Сохраняем текст GitHub в session_state для дальнейшего использования
             st.session_state["github_text_raw"] = github_text_raw
-
             full_text = preprocess_text(base_text + " " + github_text_raw)
 
         with st.spinner("🤖 Анализ..."):
@@ -85,7 +82,6 @@ if uploaded_file:
 
         tab1, tab2, tab3 = st.tabs(["Опрос", "Профессии", "Резюме"])
 
-        # Вкладка Опрос
         with tab1:
             st.subheader("Ваш уровень владения по компетенциям (0–3):")
             user_grades = []
@@ -100,7 +96,6 @@ if uploaded_file:
             st.session_state.user_grades = user_grades
             st.success("✅ Грейды сохранены! Перейдите во вкладку 'Профессии'")
 
-        # Вкладка Профессии
         with tab2:
             if "user_grades" not in st.session_state:
                 st.warning("⚠️ Сначала заполните грейды во вкладке 'Опрос'")
@@ -151,11 +146,10 @@ if uploaded_file:
                 values = [percent for _, percent in sorted_percentages]
                 colors = sns.color_palette("pastel")[0:len(sorted_percentages)]
                 wedges, texts, autotexts = ax.pie(values, labels=labels, autopct="%1.1f%%", startangle=90, colors=colors)
-                
-                # Устанавливаем тёмный цвет для числовых надписей внутри диаграммы
+
                 for autotext in autotexts:
                     autotext.set_color("black")
-                    
+
                 ax.axis("equal")
                 mplcyberpunk.add_glow_effects()
                 st.pyplot(fig)
@@ -179,7 +173,6 @@ if uploaded_file:
                     "Инженер данных": "Инженер данных (Data engineer)"
                 }
 
-                # Выводим красиво оформленные блоки с описанием для каждой профессии
                 for prof, _ in sorted_percentages:
                     full_name = prof_name_mapping.get(prof, prof)
                     desc = descriptions.get(full_name, "—")
@@ -202,6 +195,28 @@ if uploaded_file:
                     st.text(github_text_final)
             else:
                 st.info("GitHub-ссылки не найдены или не удалось получить содержимое.")
+
+            # Объяснение с LIME
+            st.markdown("### Пояснение модели (LIME)")
+            selected_comp = st.selectbox("Выберите компетенцию для объяснения", competency_list)
+
+            if selected_comp:
+                try:
+                    selected_index = competency_list.index(selected_comp)
+                    with st.spinner(f"🧩 Строим интерпретацию для «{selected_comp}»..."):
+                        explanation = get_lime_explanation(
+                            text=full_text,
+                            model=model,
+                            tokenizer=tokenizer,
+                            class_names=competency_list,
+                            label_id=selected_index,
+                            num_features=10
+                        )
+                        fig = explanation.as_pyplot_figure(label=selected_index)
+                        st.pyplot(fig)
+                except Exception as e:
+                    st.warning("⚠️ Не удалось построить интерпретацию.")
+                    logging.error(f"LIME error: {e}")
 
     except Exception as e:
         st.error("🚫 Не удалось обработать файл.")
