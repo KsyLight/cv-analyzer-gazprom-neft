@@ -132,7 +132,7 @@ if uploaded_file:
                     st.markdown(f"{color} **{comp}** — грейд: **{grade}**")
 
             with col2:
-                st.markdown("### Соответствие профессиям")
+                st.markdown("### Относительное соответствие профессиям")
                 percentages = []
                 for i, prof in enumerate(profession_names):
                     required = profession_matrix[:, i]
@@ -142,10 +142,7 @@ if uploaded_file:
                     percentages.append((prof, percent))
 
                 sorted_percentages = sorted(percentages, key=lambda x: x[1], reverse=True)
-                for prof, percent in sorted_percentages:
-                    st.markdown(f"🔹 **{prof}** — {percent:.1f}% соответствия")
 
-                st.markdown("### Круговая диаграмма")
                 fig, ax = plt.subplots()
                 labels = [prof for prof, _ in sorted_percentages]
                 values = [percent for _, percent in sorted_percentages]
@@ -159,6 +156,26 @@ if uploaded_file:
                 ax.axis("equal")
                 mplcyberpunk.add_glow_effects()
                 st.pyplot(fig)
+
+                # Столбчатая диаграмма соответствия
+                st.markdown("### Абсолютное соответствие по профессиям")
+                fig_bar, ax_bar = plt.subplots(figsize=(8, 4))
+
+                # Данные
+                bars_labels = [prof for prof, _ in sorted_percentages]
+                bars_values = [percent for _, percent in sorted_percentages]
+                colors_bar = sns.color_palette("dark", len(bars_labels))
+
+                # Построение
+                ax_bar.barh(bars_labels, bars_values, color=colors_bar)
+                ax_bar.set_xlim(0, 100)
+                ax_bar.invert_yaxis()
+                ax_bar.set_xlabel("Процент соответствия")
+                ax_bar.set_title("Ваше соответствие по каждой профессии")
+
+                # Добавим glow
+                mplcyberpunk.add_glow_effects()
+                st.pyplot(fig_bar)
 
                 st.markdown("### Описание профессий")
                 descriptions = {
