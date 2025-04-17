@@ -107,13 +107,11 @@ if uploaded_file:
                             # https://github.com/user/repo
                             user_repo = '/'.join(link.split('/')[-2:])
                             raw_readme = f"https://raw.githubusercontent.com/{user_repo}/master/README.md"
-                            github_text_raw += "
-" + collect_github_text(raw_readme)
+                            github_text_raw += " " + collect_github_text(raw_readme)
                         else:
                             # директно скачать указанный файл (raw или blob)
                             raw = link.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/')
-                            github_text_raw += "
-" + collect_github_text(raw)
+                            github_text_raw += "" + collect_github_text(raw)
                     except Exception as e:
                         st.warning(f"⚠️ Ошибка при загрузке {link}")
                         logging.error(f"GitHub fetch error ({link}): {e}")
