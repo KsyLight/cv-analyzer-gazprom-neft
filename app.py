@@ -95,30 +95,34 @@ if uploaded_file:
 
             # GitHub-ссылки
             gh_links = extract_github_links_from_text(base_text)
-            st.session_state['gh_links'] = gh_links  # сохраним ссылки
+            # Фильтруем только ссылки на репозитории, а не на профили
+            valid_repos = []
+            for link in gh_links:
+                parts = link.strip('/').split('/')
+                if len(parts) >= 5:
+                    # https://github.com/user/repo[/...]
+                    valid_repos.append(link)
+            st.session_state['gh_links'] = valid_repos
             github_text_raw = ""
-            if gh_links:
-                st.markdown("🔗 **GitHub‑ссылки:**")
-                for link in gh_links:
+            if valid_repos:
+                st.markdown("🔗 **GitHub‑репозитории:**")
+                for link in valid_repos:
                     st.markdown(f"- [{link}]({link})")
                     try:
-                        # если ссылка ведёт на репозиторий, пробуем скачать README
-                        if link.count('/') == 4 and 'blob' not in link:
-                            # https://github.com/user/repo
-                            user_repo = '/'.join(link.split('/')[-2:])
-                            raw_readme = f"https://raw.githubusercontent.com/{user_repo}/master/README.md"
-                            github_text_raw += " " + collect_github_text(raw_readme)
-                        else:
-                            # директно скачать указанный файл (raw или blob)
-                            raw = link.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/')
-                            github_text_raw += "" + collect_github_text(raw)
+                        parts = link.rstrip('/').split('/')
+                        user, repo = parts[-2], parts[-1]
+                        raw_readme = f"https://raw.githubusercontent.com/{user}/{repo}/master/README.md"
+                        text = collect_github_text(raw_readme)
+                        if text:
+                            github_text_raw += "
+" + text
                     except Exception as e:
-                        st.warning(f"⚠️ Ошибка при загрузке {link}")
+                        st.warning(f"⚠️ Ошибка при загрузке README из {link}")
                         logging.error(f"GitHub fetch error ({link}): {e}")
             else:
-                st.info("GitHub‑ссылки не найдены.")
+                st.info("GitHub‑репозитории не найдены или не распознаны.")
             st.session_state["github_text_raw"] = github_text_raw
-            full_text = preprocess_text(base_text + " " + github_text_raw)
+            full_text = preprocess_text(base_text + " " + github_text_raw)(base_text + " " + github_text_raw) preprocess_text(base_text + " " + github_text_raw)
 
         # Предсказание компетенций
         with st.spinner("🤖 Анализ компетенций..."):
@@ -286,21 +290,18 @@ if uploaded_file:
         # ─── Таб 4: Резюме ────────────────────────────────────────────────────────────
         with tab4:
             st.markdown("### Извлечённый текст резюме")
+
             # Исходный текст резюме
-            with st.expander("📝 Текст из файла резюме"):
+            with st.expander("📝 Текст из файла резюме", expanded=True):
                 st.text(base_text)
 
-            # Текст с GitHub
-            st.expander("🧑‍💻 Текст, собранный с GitHub")
+            # Показываем только тот текст с GitHub, который использовался для модели
+            github_text_final = st.session_state.get("github_text_raw", "")
             with st.expander("🧑‍💻 Текст, собранный с GitHub", expanded=True):
-                github_text_final = st.session_state.get("github_text_raw", "")
-                if github_text_final:
+                if github_text_final.strip():
                     st.text_area("GitHub-текст", github_text_final, height=300)
                 else:
-                    if gh_links:
-                        st.warning("⚠️ Не удалось получить текст репозиториев GitHub.")
-                    else:
-                        st.info("GitHub‑ссылки не найдены.")
+                    st.info("Текст с GitHub не был собран или ссылка не вела на содержимое.")
     except Exception as e:
         st.error("🚫 Не удалось обработать файл.")
         logging.error(f"Общая ошибка: {e}", exc_info=True)
