@@ -114,8 +114,7 @@ if uploaded_file:
                         raw_readme = f"https://raw.githubusercontent.com/{user}/{repo}/master/README.md"
                         text = collect_github_text(raw_readme)
                         if text:
-                            github_text_raw += "
-" + text
+                            github_text_raw += "" + text
                     except Exception as e:
                         st.warning(f"⚠️ Ошибка при загрузке README из {link}")
                         logging.error(f"GitHub fetch error ({link}): {e}")
