@@ -95,33 +95,23 @@ if uploaded_file:
 
             # GitHub-ссылки
             gh_links = extract_github_links_from_text(base_text)
-            # Фильтруем только ссылки на репозитории, а не на профили
-            valid_repos = []
-            for link in gh_links:
-                parts = link.strip('/').split('/')
-                if len(parts) >= 5:
-                    # https://github.com/user/repo[/...]
-                    valid_repos.append(link)
-            st.session_state['gh_links'] = valid_repos
+            st.session_state['gh_links'] = gh_links
             github_text_raw = ""
-            if valid_repos:
-                st.markdown("🔗 **GitHub‑репозитории:**")
-                for link in valid_repos:
+            if gh_links:
+                st.markdown("🔗 **GitHub‑ссылки:**")
+                for link in gh_links:
                     st.markdown(f"- [{link}]({link})")
                     try:
-                        parts = link.rstrip('/').split('/')
-                        user, repo = parts[-2], parts[-1]
-                        raw_readme = f"https://raw.githubusercontent.com/{user}/{repo}/master/README.md"
-                        text = collect_github_text(raw_readme)
-                        if text:
-                            github_text_raw += "" + text
+                        # собираем только текст, что уйдет к модели
+                        raw_url = link.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/')
+                        github_text_raw += "\n" + collect_github_text(raw_url)
                     except Exception as e:
-                        st.warning(f"⚠️ Ошибка при загрузке README из {link}")
+                        st.warning(f"⚠️ Ошибка при загрузке {link}")
                         logging.error(f"GitHub fetch error ({link}): {e}")
             else:
-                st.info("GitHub‑репозитории не найдены или не распознаны.")
+                st.info("GitHub‑ссылки не найдены.")
             st.session_state["github_text_raw"] = github_text_raw
-            full_text = preprocess_text(base_text + " " + github_text_raw)(base_text + " " + github_text_raw)
+            full_text = preprocess_text(base_text + " " + github_text_raw)
 
         # Предсказание компетенций
         with st.spinner("🤖 Анализ компетенций..."):
@@ -161,8 +151,7 @@ if uploaded_file:
                 st.error("⚠️ Число компетенций не совпадает с размерностью матрицы.")
                 st.stop()
             col1, col2 = st.columns(2)
-
-            # Левый столбец
+            # Левый столбец компетенций
             with col1:
                 st.markdown("### Ваши компетенции и грейды:")
                 st.markdown(
@@ -181,8 +170,7 @@ if uploaded_file:
                         f"<div style='margin-left:20px; color:white;'>{emoji} <span style='color:{color};'><strong>{comp}</strong></span> — грейд: <strong>{grade}</strong></div>",
                         unsafe_allow_html=True
                     )
-
-            # Правый столбец: графики и таблица
+            # Правый столбец: графики и описания
             with col2:
                 percentages = []
                 for i, prof in enumerate(profession_names):
@@ -289,18 +277,17 @@ if uploaded_file:
         # ─── Таб 4: Резюме ────────────────────────────────────────────────────────────
         with tab4:
             st.markdown("### Извлечённый текст резюме")
-
             # Исходный текст резюме
             with st.expander("📝 Текст из файла резюме", expanded=True):
                 st.text(base_text)
 
-            # Показываем только тот текст с GitHub, который использовался для модели
-            github_text_final = st.session_state.get("github_text_raw", "")
+            # Показать только текст, который подал в модель
             with st.expander("🧑‍💻 Текст, собранный с GitHub", expanded=True):
-                if github_text_final.strip():
+                github_text_final = st.session_state.get("github_text_raw", "")
+                if github_text_final:
                     st.text_area("GitHub-текст", github_text_final, height=300)
                 else:
-                    st.info("Текст с GitHub не был собран или ссылка не вела на содержимое.")
+                    st.info("Текст для модели из GitHub отсутствует.")
     except Exception as e:
         st.error("🚫 Не удалось обработать файл.")
         logging.error(f"Общая ошибка: {e}", exc_info=True)
