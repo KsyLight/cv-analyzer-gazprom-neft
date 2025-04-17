@@ -66,7 +66,7 @@ def predict_competencies(text: str):
     with torch.no_grad():
         outputs = model(**inputs)
     probs = torch.sigmoid(outputs.logits).squeeze().cpu().numpy()
-    preds = (probs > 0.5).astype(int)
+    preds = (probs > 0.46269254347612143).astype(int)
     return preds, probs
 
 # ─── Загрузка резюме ────────────────────────────────────────────────────────────
