@@ -246,7 +246,7 @@ if uploaded_file:
             user_vec = np.array(st.session_state.user_grades)
             weak = [i for i,(u,r) in enumerate(zip(user_vec, req_vec)) if u < r]
             if not recommendations:
-                st.info("Словарь рекомендаций пуст. Добавьте данные в utils/constants.py")
+                st.info("Словарь рекомендаций пуст. Добавьте данные в utils/constants.py, либо Егор придёт за вами")
             elif weak:
                 for i in weak:
                     comp = competency_list[i]
