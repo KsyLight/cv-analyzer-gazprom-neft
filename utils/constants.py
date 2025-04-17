@@ -83,39 +83,176 @@ profession_matrix = np.array([
     [0, 0, 0, 0],
 ])
 
+# Рекомендации по компетенциям – по три курса/ресурса на каждый
 recommendations = {
-    "Определения, история развития и главные тренды ИИ": ["https://ru.wikipedia.org/wiki/Искусственный_интеллект"],
-    "Процесс, стадии и методологии разработки решений на основе ИИ (Docker, Linux/Bash, Git)": ["https://ru.wikipedia.org/wiki/DevOps"],
-    "Статистические методы и первичный анализ данных": ["https://ru.wikipedia.org/wiki/Статистический_анализ"],
-    "Промпт-инжиниринг": ["https://en.wikipedia.org/wiki/Prompt_engineering"],
-    "Инструменты CitizenDS": ["https://github.com/CitizenDS/CDS-Docs"],
-    "Оценка качества работы методов ИИ": ["https://en.wikipedia.org/wiki/Evaluation_of_machine_learning_algorithms"],
-    "Языки программирования и библиотеки (Python, C++)": ["https://www.python.org/"],
-    "Этика ИИ": ["https://ru.wikipedia.org/wiki/Этика_искусственного_интеллекта"],
-    "Безопасность ИИ": ["https://ru.wikipedia.org/wiki/Безопасность_искусственного_интеллекта"],
-    "Цифровые двойники": ["https://ru.wikipedia.org/wiki/Цифровой_двойник"],
-    "Методы машинного обучения": ["https://ru.wikipedia.org/wiki/Машинное_обучение"],
-    "Методы оптимизации": ["https://ru.wikipedia.org/wiki/Оптимизация_(математический_анализ)"],
-    "Информационный поиск": ["https://ru.wikipedia.org/wiki/Информационный_поиск"],
-    "Рекомендательные системы": ["https://ru.wikipedia.org/wiki/Рекомендательная_система"],
-    "Анализ изображений и видео": ["https://ru.wikipedia.org/wiki/Компьютерное_зрение"],
-    "Анализ естественного языка": ["https://ru.wikipedia.org/wiki/Обработка_естественного_языка"],
-    "Основы глубокого обучения": ["https://ru.wikipedia.org/wiki/Глубокое_обучение"],
-    "Глубокое обучение для анализа и генерации изображений, видео": ["https://ru.wikipedia.org/wiki/Глубокие_конволюционные_нейронные_сети"],
-    "Глубокое обучение для анализа и генерации естественного языка": ["https://ru.wikipedia.org/wiki/Нейронные_сети_для_обработки_языка"],
-    "Обучение с подкреплением и глубокое обучение с подкреплением": ["https://ru.wikipedia.org/wiki/Обучение_с_подкреплением"],
-    "Гибридные модели и PIML": ["https://en.wikipedia.org/wiki/Physics-informed_machine_learning"],
-    "Анализ геоданных": ["https://ru.wikipedia.org/wiki/Геоинформационный_анализ"],
-    "Массово параллельные вычисления для ускорения машинного обучения (GPU)": ["https://ru.wikipedia.org/wiki/GPU"],
-    "Работа с распределенной кластерной системой": ["https://ru.wikipedia.org/wiki/Распределенная_вычислительная_система"],
-    "Машинное обучение на больших данных": ["https://en.wikipedia.org/wiki/Big_data"],
-    "Потоковая обработка данных (data streaming, event processing)": ["https://ru.wikipedia.org/wiki/Потоковая_обработка_данных"],
-    "Графовые нейросети": ["https://ru.wikipedia.org/wiki/Графовые_нейронные_сети"],
-    "SQL базы данных (GreenPlum, Postgres, Oracle)": ["https://ru.wikipedia.org/wiki/PostgreSQL"],
-    "NoSQL базы данных (Cassandra, MongoDB, ElasticSearch, Neo4j, Hbase)": ["https://ru.wikipedia.org/wiki/NoSQL"],
-    "Массово параллельная обработка и анализ данных": ["https://ru.wikipedia.org/wiki/Массово-параллельные_вычисления"],
-    "Hadoop, SPARK, Hive": ["https://ru.wikipedia.org/wiki/Apache_Hadoop"],
-    "Шины данных (Kafka)": ["https://ru.wikipedia.org/wiki/Apache_Kafka"],
-    "Качество и предобработка данных, подходы и инструменты": ["https://ru.wikipedia.org/wiki/Подготовка_данных"],
-    "Графы знаний и онтологии": ["https://ru.wikipedia.org/wiki/Онтология_(информатика)"]
+    "Определения, история развития и главные тренды ИИ": [
+        "https://www.coursera.org/search?query=ai+history",
+        "https://stepik.org/search?query=искусственный+интеллект",
+        "https://www.youtube.com/results?search_query=ai+trends+history"
+    ],
+    "Процесс, стадии и методологии разработки решений на основе ИИ (Docker, Linux/Bash, Git)": [
+        "https://www.coursera.org/search?query=ai+development+process",
+        "https://stepik.org/search?query=docker+machine+learning",
+        "https://www.youtube.com/results?search_query=machine+learning+devops+tutorial"
+    ],
+    "Статистические методы и первичный анализ данных": [
+        "https://www.coursera.org/learn/statistics",
+        "https://stepik.org/course/120",
+        "https://www.youtube.com/results?search_query=statistics+for+data+analysis"
+    ],
+    "Промпт-инжиниринг": [
+        "https://www.coursera.org/learn/prompt-engineering",
+        "https://stepik.org/search?query=prompt+engineering",
+        "https://www.youtube.com/results?search_query=prompt+engineering+tutorial"
+    ],
+    "Инструменты CitizenDS": [
+        "https://stepik.org/course/536",
+        "https://github.com/CitizenDS/CDS-Docs",
+        "https://www.youtube.com/results?search_query=CitizenDS+tutorial"
+    ],
+    "Оценка качества работы методов ИИ": [
+        "https://www.coursera.org/learn/machine-learning-model-evaluation",
+        "https://stepik.org/search?query=model+evaluation",
+        "https://www.youtube.com/results?search_query=model+evaluation+metrics"
+    ],
+    "Языки программирования и библиотеки (Python, C++)": [
+        "https://www.coursera.org/specializations/python",
+        "https://stepik.org/course/67",
+        "https://www.youtube.com/results?search_query=python+programming+tutorial"
+    ],
+    "Этика ИИ": [
+        "https://www.coursera.org/learn/ai-ethics",
+        "https://stepik.org/search?query=этика+искусственного+интеллекта",
+        "https://www.youtube.com/results?search_query=ai+ethics+course"
+    ],
+    "Безопасность ИИ": [
+        "https://www.coursera.org/search?query=ai+security",
+        "https://stepik.org/search?query=безопасность+искусственного+интеллекта",
+        "https://www.youtube.com/results?search_query=ai+security+tutorial"
+    ],
+    "Цифровые двойники": [
+        "https://www.coursera.org/search?query=digital+twins",
+        "https://stepik.org/search?query=цифровой+двойник",
+        "https://www.youtube.com/results?search_query=digital+twins+tutorial"
+    ],
+    "Методы машинного обучения": [
+        "https://www.coursera.org/learn/machine-learning",
+        "https://stepik.org/course/4852",
+        "https://www.youtube.com/results?search_query=machine+learning+course"
+    ],
+    "Методы оптимизации": [
+        "https://www.coursera.org/search?query=optimization+methods",
+        "https://stepik.org/search?query=методы+оптимизации",
+        "https://www.youtube.com/results?search_query=optimization+algorithms+tutorial"
+    ],
+    "Информационный поиск": [
+        "https://www.coursera.org/search?query=information+retrieval",
+        "https://stepik.org/search?query=информационный+поиск",
+        "https://www.youtube.com/results?search_query=information+retrieval+course"
+    ],
+    "Рекомендательные системы": [
+        "https://www.coursera.org/learn/recommender-systems",
+        "https://stepik.org/search?query=рекомендательные+системы",
+        "https://www.youtube.com/results?search_query=recommender+systems+tutorial"
+    ],
+    "Анализ изображений и видео": [
+        "https://www.coursera.org/learn/computer-vision",
+        "https://stepik.org/search?query=анализ+изображений",
+        "https://www.youtube.com/results?search_query=computer+vision+tutorial"
+    ],
+    "Анализ естественного языка": [
+        "https://www.coursera.org/learn/natural-language-processing",
+        "https://stepik.org/search?query=обработка+естественного+языка",
+        "https://www.youtube.com/results?search_query=nlp+course"
+    ],
+    "Основы глубокого обучения": [
+        "https://www.coursera.org/specializations/deep-learning",
+        "https://stepik.org/search?query=глубокое+обучение",
+        "https://www.youtube.com/results?search_query=deep+learning+tutorial"
+    ],
+    "Глубокое обучение для анализа и генерации изображений, видео": [
+        "https://www.coursera.org/learn/convolutional-neural-networks",
+        "https://stepik.org/search?query=сверточные+нейронные+сети",
+        "https://www.youtube.com/results?search_query=cnn+tutorial"
+    ],
+    "Глубокое обучение для анализа и генерации естественного языка": [
+        "https://www.coursera.org/learn/nlp-sequence-models",
+        "https://stepik.org/search?query=рекуррентные+нейронные+сети",
+        "https://www.youtube.com/results?search_query=rnn+tutorial"
+    ],
+    "Обучение с подкреплением и глубокое обучение с подкреплением": [
+        "https://www.coursera.org/learn/reinforcement-learning",
+        "https://stepik.org/search?query=обучение+с+подкреплением",
+        "https://www.youtube.com/results?search_query=reinforcement+learning+tutorial"
+    ],
+    "Гибридные модели и PIML": [
+        "https://www.coursera.org/search?query=physics+informed+ml",
+        "https://stepik.org/search?query=гибридные+модели",
+        "https://www.youtube.com/results?search_query=physics+informed+ml+tutorial"
+    ],
+    "Анализ геоданных": [
+        "https://www.coursera.org/learn/geographic-information-systems",
+        "https://stepik.org/search?query=геоданные+анализ",
+        "https://www.youtube.com/results?search_query=geospatial+analysis+tutorial"
+    ],
+    "Массово параллельные вычисления для ускорения машинного обучения (GPU)": [
+        "https://www.coursera.org/learn/gpu-computing",
+        "https://stepik.org/search?query=gpu+вычисления",
+        "https://www.youtube.com/results?search_query=gpu+cuda+tutorial"
+    ],
+    "Работа с распределенной кластерной системой": [
+        "https://www.coursera.org/search?query=distributed+systems",
+        "https://stepik.org/search?query=распределенные+системы",
+        "https://www.youtube.com/results?search_query=distributed+systems+tutorial"
+    ],
+    "Машинное обучение на больших данных": [
+        "https://www.coursera.org/specializations/big-data-machine-learning",
+        "https://stepik.org/search?query=машинное+обучение+большие+данные",
+        "https://www.youtube.com/results?search_query=big+data+ml+tutorial"
+    ],
+    "Потоковая обработка данных (data streaming, event processing)": [
+        "https://www.coursera.org/learn/streaming-data",
+        "https://stepik.org/search?query=потоковая+обработка",
+        "https://www.youtube.com/results?search_query=data+streaming+tutorial"
+    ],
+    "Графовые нейросети": [
+        "https://www.coursera.org/learn/graph-neural-networks",
+        "https://stepik.org/search?query=графовые+нейронные+сети",
+        "https://www.youtube.com/results?search_query=graph+neural+networks+tutorial"
+    ],
+    "SQL базы данных (GreenPlum, Postgres, Oracle)": [
+        "https://www.coursera.org/learn/structured-query-language",
+        "https://stepik.org/course/662",
+        "https://www.youtube.com/results?search_query=sql+tutorial"
+    ],
+    "NoSQL базы данных (Cassandra, MongoDB, ElasticSearch, Neo4j, Hbase)": [
+        "https://www.coursera.org/specializations/nosql-databases",
+        "https://stepik.org/search?query=NoSQL",
+        "https://www.youtube.com/results?search_query=nosql+tutorial"
+    ],
+    "Массово параллельная обработка и анализ данных": [
+        "https://www.coursera.org/specializations/parallel-programming",
+        "https://stepik.org/search?query=параллельные+вычисления",
+        "https://www.youtube.com/results?search_query=parallel+computing+tutorial"
+    ],
+    "Hadoop, SPARK, Hive": [
+        "https://www.coursera.org/learn/hadoop",
+        "https://stepik.org/search?query=Hadoop+Spark",
+        "https://www.youtube.com/results?search_query=hadoop+spark+tutorial"
+    ],
+    "Шины данных (Kafka)": [
+        "https://www.coursera.org/learn/confluent-kafka",
+        "https://stepik.org/search?query=Kafka",
+        "https://www.youtube.com/results?search_query=apache+kafka+tutorial"
+    ],
+    "Качество и предобработка данных, подходы и инструменты": [
+        "https://www.coursera.org/learn/data-cleaning",
+        "https://stepik.org/search?query=предобработка+данных",
+        "https://www.youtube.com/results?search_query=data+preprocessing+tutorial"
+    ],
+    "Графы знаний и онтологии": [
+        "https://www.coursera.org/learn/knowledge-graphs",
+        "https://stepik.org/search?query=граф+знаний",
+        "https://www.youtube.com/results?search_query=knowledge+graph+tutorial"
+    ]
 }
