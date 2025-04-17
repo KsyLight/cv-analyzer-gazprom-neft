@@ -95,20 +95,32 @@ if uploaded_file:
 
             # GitHub-ссылки
             gh_links = extract_github_links_from_text(base_text)
+            st.session_state['gh_links'] = gh_links  # сохраним ссылки
             github_text_raw = ""
             if gh_links:
                 st.markdown("🔗 **GitHub‑ссылки:**")
                 for link in gh_links:
                     st.markdown(f"- [{link}]({link})")
                     try:
-                        github_text_raw += "\n" + collect_github_text(link)
+                        # если ссылка ведёт на репозиторий, пробуем скачать README
+                        if link.count('/') == 4 and 'blob' not in link:
+                            # https://github.com/user/repo
+                            user_repo = '/'.join(link.split('/')[-2:])
+                            raw_readme = f"https://raw.githubusercontent.com/{user_repo}/master/README.md"
+                            github_text_raw += "
+" + collect_github_text(raw_readme)
+                        else:
+                            # директно скачать указанный файл (raw или blob)
+                            raw = link.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/')
+                            github_text_raw += "
+" + collect_github_text(raw)
                     except Exception as e:
                         st.warning(f"⚠️ Ошибка при загрузке {link}")
                         logging.error(f"GitHub fetch error ({link}): {e}")
             else:
                 st.info("GitHub‑ссылки не найдены.")
             st.session_state["github_text_raw"] = github_text_raw
-            full_text = preprocess_text(base_text + " " + github_text_raw)
+            full_text = preprocess_text(base_text + " " + github_text_raw) preprocess_text(base_text + " " + github_text_raw)
 
         # Предсказание компетенций
         with st.spinner("🤖 Анализ компетенций..."):
