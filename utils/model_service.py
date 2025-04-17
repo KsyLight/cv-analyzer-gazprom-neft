@@ -13,8 +13,8 @@ def predict_vector(text):
     Возвращает бинарный вектор и вероятности для каждой компетенции,
     используя threshold, заданный в config модели.
     """
-    # Получаем threshold из config (если нет — по умолчанию 0.5)
-    threshold = getattr(model.config, "threshold", 0.5)
+    # Получаем threshold из config (если нет — по умолчанию 0.463)
+    threshold = getattr(model.config, "threshold", 0.463)
 
     # Токенизация и предсказание
     inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True, max_length=512)
