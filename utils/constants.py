@@ -82,3 +82,5 @@ profession_matrix = np.array([
     [2, 3, 1, 1],
     [0, 0, 0, 0],
 ])
+
+recomendations = {}
