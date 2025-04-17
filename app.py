@@ -13,7 +13,7 @@ plt.style.use('cyberpunk')
 
 from utils.cv_reader import read_resume_from_file, preprocess_text
 from utils.github_reader import extract_github_links_from_text, collect_github_text
-from utils.constants import competency_list, profession_matrix, profession_names
+from utils.constants import competency_list, profession_matrix, profession_names, recommendations
 
 # ─── Настройки страницы ────────────────────────────────────────────────────────
 st.set_page_config(
@@ -37,14 +37,17 @@ def load_model():
     login(token=st.secrets["HUGGINGFACE_TOKEN"])
     repo_id = "KsyLight/resume-ai-competency-model"
     tokenizer = AutoTokenizer.from_pretrained(
-        repo_id, token=st.secrets["HUGGINGFACE_TOKEN"]
+        repo_id,
+        token=st.secrets["HUGGINGFACE_TOKEN"]
     )
     model = AutoModelForSequenceClassification.from_pretrained(
-        repo_id, token=st.secrets["HUGGINGFACE_TOKEN"]
+        repo_id,
+        token=st.secrets["HUGGINGFACE_TOKEN"]
     )
     model.eval()
     return tokenizer, model
 
+# Загружаем модель и токенизатор
 tokenizer, model = load_model()
 
 def predict_competencies(text: str):
@@ -70,7 +73,6 @@ uploaded_file = st.file_uploader(
 if uploaded_file:
     os.makedirs("temp", exist_ok=True)
     tmp_file_path = os.path.join("temp", uploaded_file.name)
-
     with open(tmp_file_path, "wb") as f:
         f.write(uploaded_file.read())
 
@@ -104,8 +106,10 @@ if uploaded_file:
         with st.spinner("🤖 Анализ компетенций..."):
             pred_vector, prob_vector = predict_competencies(full_text)
 
-        # Табы
-        tab1, tab2, tab3 = st.tabs(["Опрос", "Профессии", "Резюме"])
+        # Табы: Опрос, Профессии, Рекомендации, Резюме
+        tab1, tab2, tab3, tab4 = st.tabs([
+            "Опрос", "Профессии", "Рекомендации", "Резюме"
+        ])
 
         # ─── Таб 1: Опрос ────────────────────────────────────────────────────────────
         with tab1:
@@ -114,7 +118,7 @@ if uploaded_file:
             col1, col2 = st.columns(2)
             for i, comp in enumerate(competency_list):
                 default = 1 if pred_vector[i] else 0
-                with col1 if (i % 2 == 0) else col2:
+                with col1 if i % 2 == 0 else col2:
                     grade = st.radio(
                         comp,
                         [0, 1, 2, 3],
@@ -139,26 +143,22 @@ if uploaded_file:
 
             col1, col2 = st.columns(2)
 
-            # ——— Левый столбец: Компетенции и грейды с отступом —――
+            # Левый столбец: Компетенции и грейды с отступом
             with col1:
                 st.markdown("### Ваши компетенции и грейды:")
-                st.markdown("""
-                    <div style="
-                        border:1px solid #ddd;
-                        border-radius:8px;
-                        padding:10px;
-                        margin-bottom:10px;
-                        width:60%;
-                    ">
-                      <p style="margin:0; line-height:1.4em; padding-left:10px; color:white;">
-                        <strong style="color:#4caf50;">🟩 — грейд 3</strong> (высокий уровень)<br>
-                        <strong style="color:#ffeb3b;">🟨 — грейд 2</strong> (уверенный уровень)<br>
-                        <strong style="color:#2196f3;">🟦 — грейд 1</strong> (начальный уровень)<br>
-                        <strong style="color:#ffffff;">⬜️ — грейд 0</strong> (отсутствует)
+                st.markdown(
+                    """
+                    <div style="border:1px solid #ddd; border-radius:8px; padding:10px; margin-bottom:10px; width:60%; background:#1a1a1a;">
+                      <p style="margin:0; padding-left:12px; color:white; line-height:1.4em;">
+                        <strong style="color:#4caf50;">🟩 — грейд 3</strong> (высокий уровень)<br>
+                        <strong style="color:#ffeb3b;">🟨 — грейд 2</strong> (уверенный уровень)<br>
+                        <strong style="color:#2196f3;">🟦 — грейд 1</strong> (начальный уровень)<br>
+                        <strong style="color:#ffffff;">⬜️ — грейд 0</strong> (отсутствует)
                       </p>
                     </div>
-                """, unsafe_allow_html=True)
-
+                    """,
+                    unsafe_allow_html=True
+                )
                 sorted_comps = sorted(
                     zip(competency_list, user_vector),
                     key=lambda x: -x[1]
@@ -170,33 +170,37 @@ if uploaded_file:
                         unsafe_allow_html=True
                     )
 
-            # ——— Правый столбец: графики и таблица описаний профессий —――
+            # Правый столбец: графики и таблица описаний профессий
             with col2:
-                # Расчёт относительного соответствия
+                # Расчёт соответствия
                 percentages = []
                 for i, prof in enumerate(profession_names):
-                    required = profession_matrix[:, i]
-                    total = np.count_nonzero(required)
-                    matched = np.count_nonzero((user_vector >= required) & (required > 0))
-                    pct = matched / total * 100 if total else 0.0
+                    req = profession_matrix[:, i]
+                    tot = np.count_nonzero(req)
+                    match = np.count_nonzero((user_vector >= req) & (req > 0))
+                    pct = match / tot * 100 if tot else 0.0
                     percentages.append((prof, pct))
 
-                sorted_percentages = sorted(percentages, key=lambda x: x[1], reverse=True)
-                labels = [p for p, _ in sorted_percentages]
-                values = [v for _, v in sorted_percentages]
+                sorted_pct = sorted(percentages, key=lambda x: x[1], reverse=True)
+                labels = [p for p, _ in sorted_pct]
+                values = [v for _, v in sorted_pct]
 
-                # Круговая диаграмма
+                # Круговая диаграмма (единый стиль)
                 fig, ax = plt.subplots(figsize=(6, 6))
                 fig.patch.set_facecolor('#0d1117')
                 ax.set_facecolor('#0d1117')
-                palette = sns.color_palette("pastel", len(labels))
+                dark_colors = sns.color_palette("dark", len(labels))
                 wedges, texts, autotexts = ax.pie(
-                    values, labels=labels, autopct="%1.1f%%",
-                    startangle=90, colors=palette,
-                    wedgeprops={'edgecolor':'#0d1117','linewidth':1}
+                    values,
+                    labels=labels,
+                    autopct="%1.1f%%",
+                    startangle=90,
+                    colors=dark_colors,
+                    wedgeprops={'edgecolor':'white','linewidth':0.8}
                 )
                 for t in texts + autotexts:
-                    t.set_color('white'); t.set_fontsize(11)
+                    t.set_color('white')
+                    t.set_fontsize(10)
                 ax.axis('equal')
                 mplcyberpunk.add_glow_effects()
                 st.markdown("### Относительное соответствие по профессиям")
@@ -207,20 +211,23 @@ if uploaded_file:
                 fig_bar.patch.set_facecolor('#0d1117')
                 ax_bar.set_facecolor('#0d1117')
                 bars = ax_bar.barh(
-                    labels, values,
-                    color=sns.color_palette("dark", len(labels)),
-                    edgecolor='white', linewidth=0.8
+                    labels,
+                    values,
+                    color=dark_colors,
+                    edgecolor='white',
+                    linewidth=0.8
                 )
-                ax_bar.set_xlim(0, 100);
+                ax_bar.set_xlim(0, 100)
                 ax_bar.invert_yaxis()
                 ax_bar.set_xlabel("Процент соответствия", color='white')
                 ax_bar.grid(axis='x', linestyle='--', alpha=0.3)
                 for bar in bars:
                     w = bar.get_width()
-                    ax_bar.text(
+                    ax_ bar.text(
                         w + 1,
-                        bar.get_y() + bar.get_height()/2,
-                        f"{w:.1f}%", va='center', color='white', fontsize=10
+                        bar.get_y() + bar.get_height() / 2,
+                        f"{w:.1f}%",
+                        va='center', color='white', fontsize=10
                     )
                 mplcyberpunk.add_glow_effects()
                 st.markdown("### Абсолютное соответствие по профессиям")
@@ -244,12 +251,10 @@ if uploaded_file:
                     "Технический аналитик в ИИ": "Технический аналитик в ИИ (Technical analyst in AI)",
                     "Инженер данных": "Инженер данных (Data engineer)"
                 }
-                # Формируем строки таблицы
                 table_rows = ""
-                for prof, _ in sorted_percentages:
+                for prof, _ in sorted_pct:
                     full_name = prof_name_mapping.get(prof, prof)
                     desc = descriptions.get(full_name, "—")
-                    # разбиваем по буллитам
                     parts = desc.split(" • ")
                     if len(parts) > 1:
                         intro = parts[0].strip()
@@ -265,7 +270,6 @@ if uploaded_file:
   <td style="border:1px solid #444; padding:8px; color:white; vertical-align:top;">{full_name}</td>
   <td style="border:1px solid #444; padding:8px; color:white; vertical-align:top;">{desc_html}</td>
 </tr>"""
-                # Собираем таблицу
                 table_html = f"""
 <table style="width:100%; border-collapse:collapse;">
   <thead>
@@ -281,12 +285,32 @@ if uploaded_file:
 """
                 st.markdown(table_html, unsafe_allow_html=True)
 
-        # ─── Таб 3: Резюме ────────────────────────────────────────────────────────────
+        # ─── Таб 3: Рекомендации по слабым компетенциям ───────────────────────────────
         with tab3:
+            st.subheader("Рекомендации по слабым компетенциям для выбранной профессии")
+            prof_choice = st.selectbox("Выберите профессию", profession_names)
+            idx = profession_names.index(prof_choice)
+            req = profession_matrix[:, idx]
+            user_vec = np.array(st.session_state.user_grades)
+            weak = [i for i, (u, r) in enumerate(zip(user_vec, req)) if u < r]
+            if weak:
+                for i in weak:
+                    comp = competency_list[i]
+                    st.markdown(f"**{comp}**: ваш грейд {user_vec[i]}, требуется {req[i]}")
+                    links = recommendations.get(comp, [])
+                    if links:
+                        for url in links:
+                            st.markdown(f"- [{url}]({url})")
+                    else:
+                        st.markdown("- Рекомендаций нет")
+            else:
+                st.success("Все компетенции соответствуют требованиям!")
+
+        # ─── Таб 4: Резюме ────────────────────────────────────────────────────────────
+        with tab4:
             st.markdown("### Извлечённый текст резюме")
             with st.expander("📝 Текст из файла резюме"):
                 st.text(base_text)
-
             github_text_final = st.session_state.get("github_text_raw", "")
             if github_text_final.strip():
                 with st.expander("🧑‍💻 Текст, собранный с GitHub"):
