@@ -121,7 +121,7 @@ if uploaded_file:
             else:
                 st.info("GitHub‑репозитории не найдены или не распознаны.")
             st.session_state["github_text_raw"] = github_text_raw
-            full_text = preprocess_text(base_text + " " + github_text_raw)(base_text + " " + github_text_raw) preprocess_text(base_text + " " + github_text_raw)
+            full_text = preprocess_text(base_text + " " + github_text_raw)(base_text + " " + github_text_raw)
 
         # Предсказание компетенций
         with st.spinner("🤖 Анализ компетенций..."):
