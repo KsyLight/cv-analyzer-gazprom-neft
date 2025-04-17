@@ -139,7 +139,7 @@ if uploaded_file:
 
             col1, col2 = st.columns(2)
 
-            # ——— Левый столбец: Компетенции и грейды с отступом ———
+            # ——— Левый столбец: Компетенции и грейды с отступом —――
             with col1:
                 st.markdown("### Ваши компетенции и грейды:")
                 st.markdown("""
@@ -150,11 +150,11 @@ if uploaded_file:
                         margin-bottom:10px;
                         width:60%;
                     ">
-                      <p style="margin:0; line-height:1.4em; padding-left:10px;">
-                        <b>🟩 — грейд 3</b> (высокий уровень)<br>
-                        <b>🟨 — грейд 2</b> (уверенный уровень)<br>
-                        <b>🟦 — грейд 1</b> (начальный уровень)<br>
-                        <b>⬜️ — грейд 0</b> (отсутствует)
+                      <p style="margin:0; line-height:1.4em; padding-left:10px; color:white;">
+                        <strong style="color:#4caf50;">🟩 — грейд 3</strong> (высокий уровень)<br>
+                        <strong style="color:#ffeb3b;">🟨 — грейд 2</strong> (уверенный уровень)<br>
+                        <strong style="color:#2196f3;">🟦 — грейд 1</strong> (начальный уровень)<br>
+                        <strong style="color:#ffffff;">⬜️ — грейд 0</strong> (отсутствует)
                       </p>
                     </div>
                 """, unsafe_allow_html=True)
@@ -166,11 +166,11 @@ if uploaded_file:
                 for comp, grade in sorted_comps:
                     emoji = {3: "🟩", 2: "🟨", 1: "🟦", 0: "⬜️"}[grade]
                     st.markdown(
-                        f"<div style='margin-left:20px;'>{emoji} **{comp}** — грейд: **{grade}**</div>",
+                        f"<div style='margin-left:20px; color:white;'>{emoji} <strong>{comp}</strong> — грейд: <strong>{grade}</strong></div>",
                         unsafe_allow_html=True
                     )
 
-            # ——— Правый столбец: графики и описания профессий ———
+            # ——— Правый столбец: графики и таблица описаний профессий —――
             with col2:
                 # Расчёт относительного соответствия
                 percentages = []
@@ -191,16 +191,12 @@ if uploaded_file:
                 ax.set_facecolor('#0d1117')
                 palette = sns.color_palette("pastel", len(labels))
                 wedges, texts, autotexts = ax.pie(
-                    values,
-                    labels=labels,
-                    autopct="%1.1f%%",
-                    startangle=90,
-                    colors=palette,
+                    values, labels=labels, autopct="%1.1f%%",
+                    startangle=90, colors=palette,
                     wedgeprops={'edgecolor':'#0d1117','linewidth':1}
                 )
-                for txt in texts + autotexts:
-                    txt.set_color('white')
-                    txt.set_fontsize(11)
+                for t in texts + autotexts:
+                    t.set_color('white'); t.set_fontsize(11)
                 ax.axis('equal')
                 mplcyberpunk.add_glow_effects()
                 st.markdown("### Относительное соответствие по профессиям")
@@ -211,13 +207,11 @@ if uploaded_file:
                 fig_bar.patch.set_facecolor('#0d1117')
                 ax_bar.set_facecolor('#0d1117')
                 bars = ax_bar.barh(
-                    labels,
-                    values,
+                    labels, values,
                     color=sns.color_palette("dark", len(labels)),
-                    edgecolor='white',
-                    linewidth=0.8
+                    edgecolor='white', linewidth=0.8
                 )
-                ax_bar.set_xlim(0, 100)
+                ax_bar.set_xlim(0, 100);
                 ax_bar.invert_yaxis()
                 ax_bar.set_xlabel("Процент соответствия", color='white')
                 ax_bar.grid(axis='x', linestyle='--', alpha=0.3)
@@ -225,27 +219,24 @@ if uploaded_file:
                     w = bar.get_width()
                     ax_bar.text(
                         w + 1,
-                        bar.get_y() + bar.get_height() / 2,
-                        f"{w:.1f}%",
-                        va='center',
-                        color='white',
-                        fontsize=10
+                        bar.get_y() + bar.get_height()/2,
+                        f"{w:.1f}%", va='center', color='white', fontsize=10
                     )
                 mplcyberpunk.add_glow_effects()
                 st.markdown("### Абсолютное соответствие по профессиям")
                 st.pyplot(fig_bar)
 
-                # Блок описаний профессий
+                # Таблица описаний профессий
                 st.markdown("### Описание профессий")
                 descriptions = {
-                    "Аналитик данных (Data scientist, ML engineer)": """Специалист, который работает с данными компании, анализирует их и разрабатывает решения на основе ИИ. Совместно с техническими аналитиками формирует технические метрики, которые зависят от бизнес-метрик.
-• Определяет метод ML и адаптирует его к задаче  
-• Разрабатывает признаки  
-• Строит пайплайн  
-• Ведёт документацию""",
-                    "Менеджер в ИИ (Manager in AI)": """Руководит проектом, контролирует сроки и ресурсы. Отвечает за внедрение решения в продуктив, может участвовать в документации и анализе фидбека.""",
-                    "Технический аналитик в ИИ (Technical analyst in AI)": """Связывает заказчика и ML-команду. Анализирует бизнес-процессы, готовит ТЗ и участвует в оценке реализуемости и тестировании.""",
-                    "Инженер данных (Data engineer)": """Готовит данные: собирает, очищает, передаёт. Поддерживает хранилища и пайплайны данных."""
+                    "Аналитик данных (Data scientist, ML engineer)":
+                        "Специалист, который работает с данными компании, анализирует их и разрабатывает решения на основе ИИ. • Определяет метод ML и адаптирует его к задаче • Разрабатывает признаки • Строит пайплайн • Ведёт документацию",
+                    "Менеджер в ИИ (Manager in AI)":
+                        "Руководит проектом, контролирует сроки и ресурсы. Отвечает за внедрение решения в продуктив, может участвовать в документации и анализе фидбека.",
+                    "Технический аналитик в ИИ (Technical analyst in AI)":
+                        "Связывает заказчика и ML-команду. Анализирует бизнес-процессы, готовит ТЗ и участвует в оценке реализуемости и тестировании.",
+                    "Инженер данных (Data engineer)":
+                        "Готовит данные: собирает, очищает, передаёт. Поддерживает хранилища и пайплайны данных."
                 }
                 prof_name_mapping = {
                     "Аналитик данных": "Аналитик данных (Data scientist, ML engineer)",
@@ -253,20 +244,42 @@ if uploaded_file:
                     "Технический аналитик в ИИ": "Технический аналитик в ИИ (Technical analyst in AI)",
                     "Инженер данных": "Инженер данных (Data engineer)"
                 }
+                # Формируем строки таблицы
+                table_rows = ""
                 for prof, _ in sorted_percentages:
                     full_name = prof_name_mapping.get(prof, prof)
                     desc = descriptions.get(full_name, "—")
-                    st.markdown(f"""
-                        <div style="
-                            border:1px solid #ddd;
-                            border-radius:8px;
-                            padding:10px;
-                            margin-bottom:10px;
-                        ">
-                            <h4 style="margin:0 0 5px 0;">{full_name}</h4>
-                            <p style="margin:0;">{desc}</p>
-                        </div>
-                    """, unsafe_allow_html=True)
+                    # разбиваем по буллитам
+                    parts = desc.split(" • ")
+                    if len(parts) > 1:
+                        intro = parts[0].strip()
+                        items = parts[1:]
+                        desc_html = f"<p style='margin:0 0 4px 0;'>{intro}</p><ul style='margin:0; padding-left:20px;'>"
+                        for it in items:
+                            desc_html += f"<li style='margin-bottom:2px;'>{it.strip()}</li>"
+                        desc_html += "</ul>"
+                    else:
+                        desc_html = f"<p style='margin:0;'>{desc}</p>"
+                    table_rows += f"""
+<tr>
+  <td style="border:1px solid #444; padding:8px; color:white; vertical-align:top;">{full_name}</td>
+  <td style="border:1px solid #444; padding:8px; color:white; vertical-align:top;">{desc_html}</td>
+</tr>"""
+                # Собираем таблицу
+                table_html = f"""
+<table style="width:100%; border-collapse:collapse;">
+  <thead>
+    <tr style="background-color:#1f1f1f;">
+      <th style="border:1px solid #555; padding:8px; color:white; text-align:left;">Профессия</th>
+      <th style="border:1px solid #555; padding:8px; color:white; text-align:left;">Описание</th>
+    </tr>
+  </thead>
+  <tbody>
+    {table_rows}
+  </tbody>
+</table>
+"""
+                st.markdown(table_html, unsafe_allow_html=True)
 
         # ─── Таб 3: Резюме ────────────────────────────────────────────────────────────
         with tab3:
