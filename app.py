@@ -223,7 +223,7 @@ if uploaded_file:
                 ax_bar.grid(axis='x', linestyle='--', alpha=0.3)
                 for bar in bars:
                     w = bar.get_width()
-                    ax_ bar.text(
+                    ax_bar.text(
                         w + 1,
                         bar.get_y() + bar.get_height() / 2,
                         f"{w:.1f}%",
