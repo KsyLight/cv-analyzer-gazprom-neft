@@ -28,6 +28,10 @@ st.set_page_config(
 )
 st.title("Анализ резюме по матрице Альянса ИИ")
 
+# ─── Инициализация GitHub-текста ───────────────────────────────────────────────
+if "github_text_raw" not in st.session_state:
+    st.session_state["github_text_raw"] = ""
+
 # ─── Логирование ────────────────────────────────────────────────────────────────
 os.makedirs("logs", exist_ok=True)
 logging.basicConfig(
@@ -97,7 +101,7 @@ if uploaded_file:
                 for link in gh_links:
                     st.markdown(f"- [{link}]({link})")
                     try:
-                        github_text_raw += " " + collect_github_text(link)
+                        github_text_raw += "\n" + collect_github_text(link)
                     except Exception as e:
                         st.warning(f"⚠️ Ошибка при загрузке {link}")
                         logging.error(f"GitHub fetch error ({link}): {e}")
@@ -143,9 +147,9 @@ if uploaded_file:
             if user_vector.shape[0] != profession_matrix.shape[0]:
                 st.error("⚠️ Число компетенций не совпадает с размерностью матрицы.")
                 st.stop()
-
             col1, col2 = st.columns(2)
-            # — Левый столбец
+
+            # Левый столбец
             with col1:
                 st.markdown("### Ваши компетенции и грейды:")
                 st.markdown(
@@ -159,11 +163,13 @@ if uploaded_file:
                 )
                 for comp, grade in sorted(zip(competency_list, user_vector), key=lambda x: -x[1]):
                     emoji = {3: "🟩", 2: "🟨", 1: "🟦", 0: "⬜️"}[grade]
+                    color = "#4caf50" if grade==3 else "#ffeb3b" if grade==2 else "#2196f3" if grade==1 else "#ffffff"
                     st.markdown(
-                        f"<div style='margin-left:20px; color:white;'>{emoji} <strong>{comp}</strong> — грейд: <strong>{grade}</strong></div>",
+                        f"<div style='margin-left:20px; color:white;'>{emoji} <span style='color:{color};'><strong>{comp}</strong></span> — грейд: <strong>{grade}</strong></div>",
                         unsafe_allow_html=True
                     )
-            # — Правый столбец
+
+            # Правый столбец: графики и таблица
             with col2:
                 percentages = []
                 for i, prof in enumerate(profession_names):
@@ -177,7 +183,6 @@ if uploaded_file:
                 values = [v for _, v in sorted_pct]
                 colors = sns.color_palette("dark", len(labels))
 
-                # Круговая диаграмма
                 fig, ax = plt.subplots(figsize=(6, 6))
                 fig.patch.set_facecolor('#0d1117'); ax.set_facecolor('#0d1117')
                 wedges, texts, atxts = ax.pie(
@@ -190,7 +195,6 @@ if uploaded_file:
                 st.markdown("### Относительное соответствие по профессиям")
                 st.pyplot(fig)
 
-                # Столбчатая диаграмма
                 fig_bar, ax_bar = plt.subplots(figsize=(8, 4))
                 fig_bar.patch.set_facecolor('#0d1117'); ax_bar.set_facecolor('#0d1117')
                 bars = ax_bar.barh(labels, values, color=colors, edgecolor='white', linewidth=0.8)
@@ -199,7 +203,7 @@ if uploaded_file:
                 ax_bar.grid(axis='x', linestyle='--', alpha=0.3)
                 for bar in bars:
                     w = bar.get_width()
-                    ax_bar.text(w+1, bar.get_y() + bar.get_height()/2, f"{w:.1f}%", va='center', color='white', fontsize=10)
+                    ax_bar.text(w+1, bar.get_y()+bar.get_height()/2, f"{w:.1f}%", va='center', color='white', fontsize=10)
                 mplcyberpunk.add_glow_effects()
                 st.markdown("### Абсолютное соответствие по профессиям")
                 st.pyplot(fig_bar)
@@ -244,14 +248,23 @@ if uploaded_file:
             idx = profession_names.index(prof_choice)
             req_vec = profession_matrix[:, idx]
             user_vec = np.array(st.session_state.user_grades)
+
+            sort_asc = st.checkbox("Сортировать по грейду (меньше → больше)", value=True)
             weak = [i for i,(u,r) in enumerate(zip(user_vec, req_vec)) if u < r]
+            weak_sorted = sorted(weak, key=lambda i: user_vec[i], reverse=not sort_asc)
+
+            emoji_map = {3: "🟩", 2: "🟨", 1: "🟦", 0: "⬜️"}
             if not recommendations:
-                st.info("Словарь рекомендаций пуст. Добавьте данные в utils/constants.py, либо Егор придёт за вами")
-            elif weak:
-                for i in weak:
+                st.info("Словарь рекомендаций пуст. Добавьте данные в utils/constants.py")
+            elif weak_sorted:
+                for i in weak_sorted:
                     comp = competency_list[i]
-                    st.markdown(f"**{comp}**: ваш грейд {user_vec[i]}, требуется {req_vec[i]}")
-                    recs = recommendations.get(comp)
+                    g = user_vec[i]
+                    req = req_vec[i]
+                    emoji = emoji_map.get(g, "⬜️")
+                    color = "#4caf50" if g==3 else "#ffeb3b" if g==2 else "#2196f3" if g==1 else "#ffffff"
+                    st.markdown(f"<span style='color:{color};'>{emoji} <strong>{comp}</strong></span>: ваш грейд {g}, требуется {req}", unsafe_allow_html=True)
+                    recs = recommendations.get(comp, [])
                     if recs:
                         for url in recs:
                             st.markdown(f"- [{url}]({url})")
@@ -263,15 +276,21 @@ if uploaded_file:
         # ─── Таб 4: Резюме ────────────────────────────────────────────────────────────
         with tab4:
             st.markdown("### Извлечённый текст резюме")
+            # Исходный текст резюме
             with st.expander("📝 Текст из файла резюме"):
                 st.text(base_text)
-            github_text_final = st.session_state.get("github_text_raw", "")
-            if github_text_final.strip():
-                with st.expander("🧑‍💻 Текст, собранный с GitHub"):
-                    st.text(github_text_final)
-            else:
-                st.info("GitHub‑ссылки не найдены или не удалось получить содержимое.")
 
+            # Текст с GitHub
+            st.expander("🧑‍💻 Текст, собранный с GitHub")
+            with st.expander("🧑‍💻 Текст, собранный с GitHub", expanded=True):
+                github_text_final = st.session_state.get("github_text_raw", "")
+                if github_text_final:
+                    st.text_area("GitHub-текст", github_text_final, height=300)
+                else:
+                    if gh_links:
+                        st.warning("⚠️ Не удалось получить текст репозиториев GitHub.")
+                    else:
+                        st.info("GitHub‑ссылки не найдены.")
     except Exception as e:
         st.error("🚫 Не удалось обработать файл.")
         logging.error(f"Общая ошибка: {e}", exc_info=True)
