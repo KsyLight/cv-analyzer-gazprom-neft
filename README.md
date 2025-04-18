@@ -30,7 +30,7 @@
 
 ```plaintext
 CV-ANALYZER-GAZPROM-NEFT/
-├── .streamlit/                # Конфигурации Streamlit (в т.ч. токен HuggingFace)
+├── .streamlit/                # Конфигурации Streamlit с доп. настройками
 │   └── config.toml
 ├── others/                    # Прочие ресурсы проекта
 ├── utils/                     # Вспомогательные модули и логика
