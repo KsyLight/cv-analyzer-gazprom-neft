@@ -277,12 +277,12 @@ if uploaded_file:
         with tab4:
             st.markdown("### Извлечённый текст резюме")
             with st.expander("📝 Текст из файла резюме", expanded=False):
-                st.text_area("Текст из резюме", base_text, height=500)
+                st.text_area("Текст из резюме", base_text, height=500, disabled=True)
 
             with st.expander("🧑‍💻 Текст, собранный с GitHub", expanded=False):
                 github_text_final = st.session_state.get("github_text_raw", "")
                 if github_text_final:
-                    st.text_area("GitHub-текст", github_text_final, height=500)
+                    st.text_area("GitHub-текст", github_text_final, height=500, disabled=True)
                 else:
                     st.info("Текст для модели из GitHub отсутствует.")
 
