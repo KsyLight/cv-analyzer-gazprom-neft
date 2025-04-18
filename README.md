@@ -113,6 +113,6 @@ lime
   </tr>
 </table>
 
-<p align="center">
-  <img src="others/cat.jpg" alt="Котик AI" width="200" />
-</p>
+<div align="center">
+  <img src="others/cat.jpg" alt="Котик AI" style="width:90%; max-width:1200px; height:auto;" />
+</div>
