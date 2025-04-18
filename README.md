@@ -66,19 +66,9 @@ lime
 
 ## Наша команда
 
-<table>
-  <tr>
-    <td align="center">
-      <img src="https://example.com/alice.jpg" width="100" alt="Alice"/>
-      <p><strong>Alice</strong><br/>Data Scientist</p>
-    </td>
-    <td align="center">
-      <img src="https://example.com/bob.jpg" width="100" alt="Bob"/>
-      <p><strong>Bob</strong><br/>ML Engineer</p>
-    </td>
-    <td align="center">
-      <img src="https://example.com/carol.jpg" width="100" alt="Carol"/>
-      <p><strong>Carol</strong><br/>Frontend Dev</p>
-    </td>
-  </tr>
-</table>
+Участник | GitHub
+Егор | KsyLight
+Аким | Akim-norfeg
+Максим | Swagozavr
+Катя | klevkina
+Аня | ссылка пока нет
