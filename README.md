@@ -90,7 +90,7 @@ lime
     </td>
     <td align="center">
       <img src="https://github.com/kwarkw.png?size=100" width="100" alt="Аня"/>
-      <p><strong>Катя</strong><br/><a href="https://github.com/kwarkw">kwarkw</a></p>
+      <p><strong>Аня</strong><br/><a href="https://github.com/kwarkw">kwarkw</a></p>
     </td>
   </tr>
 </table>
