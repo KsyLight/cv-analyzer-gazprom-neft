@@ -22,9 +22,29 @@
 - Рекомендации по развитию слабых компетенций
 - Возможность расширения с помощью интерпретируемости (LIME, Attention) — сейчас в веб-приложении отсутствует, ибо streamlit не выдерживает и падает
 
+## Структура проекта
+
+```plaintext
+CV-ANALYZER-GAZPROM-NEFT/
+├── .streamlit/                # Конфигурации Streamlit с доп. настройками
+│   └── config.toml
+├── others/                    # Прочие ресурсы проекта
+├── utils/                     # Вспомогательные модули и логика
+│   ├── __init__.py            # Инициализация пакета
+│   ├── constants.py           # Список компетенций, матрица профессий и рекомендации
+│   ├── cv_reader.py           # Извлечение и очистка текста из резюме
+│   ├── github_reader.py       # Поиск и парсинг GitHub-профиля пользователя
+│   ├── explanation.py         # Интерпретируемость модели (LIME, Attention)
+│   ├── model_service.py       # Загрузка модели, предсказания с учётом threshold
+│   └── resume_processor.py    # Объединение резюме + GitHub текстов
+├── app.py                     # Основной Streamlit-приложение
+├── requirements.txt           # Список зависимостей Python
+└── README.md                  # Документация проекта
+```
+
 ---
 
-## Ссылки по проекту
+## Ссылки по хакатону
 https://docs.google.com/document/d/1lgbiqXAzj9J_sWFw-ep4w4qTQOpA2A_-5ieAzwoP62M/edit?tab=t.0
 
 ## Проблематика и целевая аудитория
@@ -48,26 +68,6 @@ https://docs.google.com/document/d/1lgbiqXAzj9J_sWFw-ep4w4qTQOpA2A_-5ieAzwoP62M/
 |                                                                                                            | • Улучшение долгосрочной карьерной стратегии сотрудников           |
 
 ---
-
-## Структура проекта
-
-```plaintext
-CV-ANALYZER-GAZPROM-NEFT/
-├── .streamlit/                # Конфигурации Streamlit с доп. настройками
-│   └── config.toml
-├── others/                    # Прочие ресурсы проекта
-├── utils/                     # Вспомогательные модули и логика
-│   ├── __init__.py            # Инициализация пакета
-│   ├── constants.py           # Список компетенций, матрица профессий и рекомендации
-│   ├── cv_reader.py           # Извлечение и очистка текста из резюме
-│   ├── github_reader.py       # Поиск и парсинг GitHub-профиля пользователя
-│   ├── explanation.py         # Интерпретируемость модели (LIME, Attention)
-│   ├── model_service.py       # Загрузка модели, предсказания с учётом threshold
-│   └── resume_processor.py    # Объединение резюме + GitHub текстов
-├── app.py                     # Основной Streamlit-приложение
-├── requirements.txt           # Список зависимостей Python
-└── README.md                  # Документация проекта
-```
 
 ## Requirements
 
