@@ -14,7 +14,7 @@
 
 ---
 
-## Ссылки по хакатону
+## Ссылки по хакатону (тык на бейджик)
 
 ![Google Docs](https://img.shields.io/badge/Google%20Docs-blue?style=flat&logo=google-docs)
 ![PowerPoint](https://img.shields.io/badge/PowerPoint-darkorange?style=flat&logo=microsoft-powerpoint)
