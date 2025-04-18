@@ -112,3 +112,5 @@ lime
     </td>
   </tr>
 </table>
+
+![Котик](others/cat.jpg)
