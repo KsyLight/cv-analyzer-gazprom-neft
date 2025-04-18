@@ -12,7 +12,7 @@
 ![🌙 Dark Mode Recommended](https://img.shields.io/badge/theme-dark-blue?style=flat&logo=github) \
 **Рекомендуем** использовать тёмную тему для наилучшего восприятия контента.
 
-## Полезные ссылки
+## Ссылки по проекту
 https://docs.google.com/document/d/1lgbiqXAzj9J_sWFw-ep4w4qTQOpA2A_-5ieAzwoP62M/edit?tab=t.0
 
 ---
