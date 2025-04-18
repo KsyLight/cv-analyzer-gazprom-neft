@@ -86,173 +86,150 @@ profession_matrix = np.array([
 # Рекомендации по компетенциям – по три курса/ресурса на каждый
 recommendations = {
     "Определения, история развития и главные тренды ИИ": [
-        "https://www.coursera.org/search?query=ai+history",
-        "https://stepik.org/search?query=искусственный+интеллект",
-        "https://www.youtube.com/results?search_query=ai+trends+history"
+       "https://artezio.ru/blog/razvitie-ii",
+       "https://gb.ru/blog/razvitie-iskusstvennogo-intellekta/",
+       "https://habr.com/ru/articles/861888/"
     ],
     "Процесс, стадии и методологии разработки решений на основе ИИ (Docker, Linux/Bash, Git)": [
-        "https://www.coursera.org/search?query=ai+development+process",
-        "https://stepik.org/search?query=docker+machine+learning",
-        "https://www.youtube.com/results?search_query=machine+learning+devops+tutorial"
+        "https://karpov.courses/docker",
+        "https://stepik.org/course/73/promo",
+        "https://ru.hexlet.io/courses/bash"
     ],
     "Статистические методы и первичный анализ данных": [
-        "https://www.coursera.org/learn/statistics",
-        "https://stepik.org/course/120",
-        "https://www.youtube.com/results?search_query=statistics+for+data+analysis"
+        "https://openedu.ru/course/hse/STATMETODS_SPEC/",
+        "https://www.specialist.ru/dictionary/definition/statistic-analysis",
+        "https://www.hse.ru/edu/courses/835199376"
     ],
     "Промпт-инжиниринг": [
-        "https://www.coursera.org/learn/prompt-engineering",
-        "https://stepik.org/search?query=prompt+engineering",
-        "https://www.youtube.com/results?search_query=prompt+engineering+tutorial"
+        "https://www.lektorium.tv/prompt-en",
+        "https://stepik.org/course/204833/promo",
+        "https://openedu.ru/course/hse/PROMPT_ENGINEERING/"
     ],
     "Инструменты CitizenDS": [
-        "https://stepik.org/course/536",
-        "https://github.com/CitizenDS/CDS-Docs",
-        "https://www.youtube.com/results?search_query=CitizenDS+tutorial"
+        "hhttps://www.techtarget.com/searchbusinessanalytics/definition/citizen-data-scientist",
+        "https://wiki.loginom.ru/articles/citizen-datascience.html",
+        "https://www.spotfire.com/glossary/what-is-a-citizen-data-scientist"
     ],
     "Оценка качества работы методов ИИ": [
-        "https://www.coursera.org/learn/machine-learning-model-evaluation",
-        "https://stepik.org/search?query=model+evaluation",
-        "https://www.youtube.com/results?search_query=model+evaluation+metrics"
+        "https://stepik.org/course/204833/promo",
+        "https://openedu.ru/course/hse/PROMPT_ENGINEERING/"
     ],
     "Языки программирования и библиотеки (Python, C++)": [
-        "https://www.coursera.org/specializations/python",
-        "https://stepik.org/course/67",
-        "https://www.youtube.com/results?search_query=python+programming+tutorial"
+        "https://stepik.org/course/67/promo",
+        "https://practicum.yandex.ru/cpp/",
+        "https://stepik.org/course/7/promo"
     ],
     "Этика ИИ": [
-        "https://www.coursera.org/learn/ai-ethics",
-        "https://stepik.org/search?query=этика+искусственного+интеллекта",
-        "https://www.youtube.com/results?search_query=ai+ethics+course"
+        "https://stepik.org/course/61610/promo",
+        "https://www.hse.ru/edu/courses/835167224",
+        "https://stepik.org/course/118318/promo"
     ],
     "Безопасность ИИ": [
-        "https://www.coursera.org/search?query=ai+security",
-        "https://stepik.org/search?query=безопасность+искусственного+интеллекта",
-        "https://www.youtube.com/results?search_query=ai+security+tutorial"
+        "https://stepik.org/course/61610/promo",
+        "https://www.hse.ru/edu/courses/835167224"
     ],
     "Цифровые двойники": [
-        "https://www.coursera.org/search?query=digital+twins",
-        "https://stepik.org/search?query=цифровой+двойник",
-        "https://www.youtube.com/results?search_query=digital+twins+tutorial"
+        "https://openedu.ru/course/spbstu/DIGTWIN/"
     ],
     "Методы машинного обучения": [
-        "https://www.coursera.org/learn/machine-learning",
-        "https://stepik.org/course/4852",
-        "https://www.youtube.com/results?search_query=machine+learning+course"
+        "https://practicum.yandex.ru/machine-learning/",
+        "https://stepik.org/catalog/56",
+        "https://karpov.courses/ml-start"
     ],
     "Методы оптимизации": [
-        "https://www.coursera.org/search?query=optimization+methods",
-        "https://stepik.org/search?query=методы+оптимизации",
-        "https://www.youtube.com/results?search_query=optimization+algorithms+tutorial"
+        "https://stepik.org/course/91916/promo",
+        "https://www.hse.ru/edu/courses/470890824",
+        "https://www.hse.ru/edu/courses/835129036"
     ],
     "Информационный поиск": [
-        "https://www.coursera.org/search?query=information+retrieval",
-        "https://stepik.org/search?query=информационный+поиск",
-        "https://www.youtube.com/results?search_query=information+retrieval+course"
+        "https://education.vk.company/program/informatsionnyy-poisk"
     ],
     "Рекомендательные системы": [
-        "https://www.coursera.org/learn/recommender-systems",
-        "https://stepik.org/search?query=рекомендательные+системы",
-        "https://www.youtube.com/results?search_query=recommender+systems+tutorial"
+        "https://education.yandex.ru/handbook/ml/article/intro-recsys",
+        "http://wiki.cs.hse.ru/%D0%A0%D0%B5%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D0%B4%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5_%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D1%8B"
     ],
     "Анализ изображений и видео": [
-        "https://www.coursera.org/learn/computer-vision",
-        "https://stepik.org/search?query=анализ+изображений",
-        "https://www.youtube.com/results?search_query=computer+vision+tutorial"
+        "https://www.lektorium.tv/course/22902",
+        "https://www.hse.ru/edu/courses/570814531",
+        "https://www.hse.ru/edu/courses/339561854"
     ],
     "Анализ естественного языка": [
-        "https://www.coursera.org/learn/natural-language-processing",
-        "https://stepik.org/search?query=обработка+естественного+языка",
-        "https://www.youtube.com/results?search_query=nlp+course"
+        "https://blog.skillfactory.ru/glossary/nlp/",
+        "https://aws.amazon.com/ru/what-is/nlp/"
     ],
     "Основы глубокого обучения": [
-        "https://www.coursera.org/specializations/deep-learning",
-        "https://stepik.org/search?query=глубокое+обучение",
-        "https://www.youtube.com/results?search_query=deep+learning+tutorial"
+        "https://stepik.org/course/179805/promo",
+        "https://karpov.courses/deep-learning",
+        "https://stepik.org/course/230362/promo"
     ],
     "Глубокое обучение для анализа и генерации изображений, видео": [
-        "https://www.coursera.org/learn/convolutional-neural-networks",
-        "https://stepik.org/search?query=сверточные+нейронные+сети",
-        "https://www.youtube.com/results?search_query=cnn+tutorial"
+        "https://karpov.courses/deep-learning",
+        "https://stepik.org/course/230362/promo"
     ],
     "Глубокое обучение для анализа и генерации естественного языка": [
-        "https://www.coursera.org/learn/nlp-sequence-models",
-        "https://stepik.org/search?query=рекуррентные+нейронные+сети",
-        "https://www.youtube.com/results?search_query=rnn+tutorial"
+        "https://blog.skillfactory.ru/glossary/nlp/",
+        "https://aws.amazon.com/ru/what-is/nlp/"
     ],
     "Обучение с подкреплением и глубокое обучение с подкреплением": [
-        "https://www.coursera.org/learn/reinforcement-learning",
-        "https://stepik.org/search?query=обучение+с+подкреплением",
-        "https://www.youtube.com/results?search_query=reinforcement+learning+tutorial"
+        "https://stepik.org/course/189738/promo",
+        "https://education.yandex.ru/handbook/ml/article/obuchenie-s-podkrepleniem"
     ],
     "Гибридные модели и PIML": [
-        "https://www.coursera.org/search?query=physics+informed+ml",
-        "https://stepik.org/search?query=гибридные+модели",
-        "https://www.youtube.com/results?search_query=physics+informed+ml+tutorial"
+        "https://www.specialist.ru/track/t-piml"
     ],
     "Анализ геоданных": [
-        "https://www.coursera.org/learn/geographic-information-systems",
-        "https://stepik.org/search?query=геоданные+анализ",
-        "https://www.youtube.com/results?search_query=geospatial+analysis+tutorial"
+        "https://ods.ai/tracks/geoanalytics-course-spring24",
+        "https://softculture.cc/courses/architects/python-analytics",
+        "https://netology.ru/programs/geoanalyst"
     ],
     "Массово параллельные вычисления для ускорения машинного обучения (GPU)": [
-        "https://www.coursera.org/learn/gpu-computing",
-        "https://stepik.org/search?query=gpu+вычисления",
-        "https://www.youtube.com/results?search_query=gpu+cuda+tutorial"
+        "https://aws.amazon.com/ru/what-is/nlp/"
     ],
     "Работа с распределенной кластерной системой": [
-        "https://www.coursera.org/search?query=distributed+systems",
-        "https://stepik.org/search?query=распределенные+системы",
-        "https://www.youtube.com/results?search_query=distributed+systems+tutorial"
+        "https://edu.fors.ru/raspisanie-kursov/kurs/7089/",
+        "https://intuit.ru/studies/courses/542/398/info"
     ],
     "Машинное обучение на больших данных": [
-        "https://www.coursera.org/specializations/big-data-machine-learning",
-        "https://stepik.org/search?query=машинное+обучение+большие+данные",
-        "https://www.youtube.com/results?search_query=big+data+ml+tutorial"
+        "https://openedu.ru/course/hse/machine_learning_big_data/",
+        "https://www.hse.ru/edu/courses/646526109",
+        "https://practicum.yandex.ru/data-scientist/"
     ],
     "Потоковая обработка данных (data streaming, event processing)": [
-        "https://www.coursera.org/learn/streaming-data",
-        "https://stepik.org/search?query=потоковая+обработка",
-        "https://www.youtube.com/results?search_query=data+streaming+tutorial"
+        "https://bigdataschool.ru/courses/flink-stream-processing",
+        "https://bigdataschool.ru/courses/apache-spark-structured-streaming",
+        "https://stepik.org/course/183213/promo"
     ],
     "Графовые нейросети": [
-        "https://www.coursera.org/learn/graph-neural-networks",
-        "https://stepik.org/search?query=графовые+нейронные+сети",
-        "https://www.youtube.com/results?search_query=graph+neural+networks+tutorial"
+        "https://education.yandex.ru/handbook/ml/article/grafovye-nejronnye-seti"
     ],
     "SQL базы данных (GreenPlum, Postgres, Oracle)": [
-        "https://www.coursera.org/learn/structured-query-language",
-        "https://stepik.org/course/662",
-        "https://www.youtube.com/results?search_query=sql+tutorial"
+        "https://practicum.yandex.ru/sql-data-analyst/",
+        "https://sql-academy.org/",
+        "https://karpov.courses/simulator-sql"
     ],
     "NoSQL базы данных (Cassandra, MongoDB, ElasticSearch, Neo4j, Hbase)": [
-        "https://www.coursera.org/specializations/nosql-databases",
-        "https://stepik.org/search?query=NoSQL",
-        "https://www.youtube.com/results?search_query=nosql+tutorial"
+        "https://otus.ru/lessons/cassandra/",
+        "https://stepik.org/course/181467/promo",
+        "https://coursehunter.net/course/nauchites-sozdavat-prilozheniya-s-pomoshchyu-neo4j"
     ],
     "Массово параллельная обработка и анализ данных": [
-        "https://www.coursera.org/specializations/parallel-programming",
-        "https://stepik.org/search?query=параллельные+вычисления",
-        "https://www.youtube.com/results?search_query=parallel+computing+tutorial"
+        "https://www.finam.ru/publications/item/massovaya-parallelnaya-obrabotka-20230629-0857/",
+        "https://bigdataschool.ru/blog/what-is-mpp-greenplum.html"
     ],
     "Hadoop, SPARK, Hive": [
-        "https://www.coursera.org/learn/hadoop",
-        "https://stepik.org/search?query=Hadoop+Spark",
-        "https://www.youtube.com/results?search_query=hadoop+spark+tutorial"
+        "https://bigdataschool.ru/courses/hive-hadoop-sql-administrator",
+        "https://stepik.org/course/115252/promo"
     ],
     "Шины данных (Kafka)": [
-        "https://www.coursera.org/learn/confluent-kafka",
-        "https://stepik.org/search?query=Kafka",
-        "https://www.youtube.com/results?search_query=apache+kafka+tutorial"
+        "https://practicum.yandex.ru/kafka/"
     ],
     "Качество и предобработка данных, подходы и инструменты": [
-        "https://www.coursera.org/learn/data-cleaning",
-        "https://stepik.org/search?query=предобработка+данных",
-        "https://www.youtube.com/results?search_query=data+preprocessing+tutorial"
+        "https://practicum.yandex.ru/data-analyst/",
+        "https://openedu.ru/course/hse/TEXT/"
     ],
     "Графы знаний и онтологии": [
-        "https://www.coursera.org/learn/knowledge-graphs",
-        "https://stepik.org/search?query=граф+знаний",
-        "https://www.youtube.com/results?search_query=knowledge+graph+tutorial"
+        "https://ods.ai/tracks/kgcourse2021",
+        "https://www.hse.ru/edu/courses/339556072",
+        "https://kubsau.ru/upload/iblock/769/7698e43fcfcf8649fa4922d978f07b8f.pdf"
     ]
 }
