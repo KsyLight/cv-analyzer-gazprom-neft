@@ -27,6 +27,8 @@
 - Рекомендации по развитию слабых компетенций
 - Возможность расширения с помощью интерпретируемости (LIME, Attention) — сейчас в веб-приложении отсутствует, ибо streamlit не выдерживает и падает
 
+## Проблематика и целевая аудитория
+
 <table style="table-layout: fixed; width: 100%; border-collapse: collapse;" border="1">
   <colgroup>
     <col style="width: 50%;" />
@@ -70,6 +72,8 @@
 </table>
 
 <br/>
+
+## Функции и преимущества
 
 <table style="table-layout: fixed; width: 100%; border-collapse: collapse;" border="1">
   <colgroup>
