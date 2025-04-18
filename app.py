@@ -112,7 +112,7 @@ if uploaded_file:
 
         # ─── Таб 1: Оценка грейдов ────────────────────────────────────────────────────────────
         with tab1:
-            st.subheader("Ваш уровень владения по компетенциям (0–3):")
+            st.subheader("Оцените Ваш уровень владения по компетенциям (0–3):")
             user_grades = []
             col1, col2 = st.columns(2)
             for i, comp in enumerate(competency_list):
