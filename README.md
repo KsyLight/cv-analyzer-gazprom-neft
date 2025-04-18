@@ -89,8 +89,8 @@ lime
       <p><strong>Катя</strong><br/><a href="https://github.com/klevkina">klevkina</a></p>
     </td>
     <td align="center">
-      <img src="https://via.placeholder.com/100?text=Аня" width="100" alt="Аня"/>
-      <p><strong>Аня</strong><br/><em>ссылки пока нет</em></p>
+      <img src="https://github.com/kwarkw.png?size=100" width="100" alt="Катя"/>
+      <p><strong>Катя</strong><br/><a href="https://github.com/kwarkw">kwarkw</a></p>
     </td>
   </tr>
 </table>
