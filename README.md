@@ -10,7 +10,6 @@
 ![🌙 Dark Mode Recommended](https://img.shields.io/badge/theme-dark-blue?style=flat&logo=github) \
 **Рекомендуем** использовать тёмную тему для наилучшего восприятия контента.
 
----
 
 ### Дополнительные ссылки по хакатону (тык на бейджик)
 
@@ -19,6 +18,8 @@
 
 [Презентация по хакатону]()
 [![PowerPoint](https://img.shields.io/badge/PowerPoint-darkorange?style=flat&logo=microsoft-powerpoint)](https://www.office.com/launch/powerpoint?auth=2&appid=ВАШ_ИД_ПРЕЗЕНТАЦИИ)
+
+---
 
 ## Возможности
 
