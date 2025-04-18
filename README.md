@@ -12,7 +12,7 @@
 
 ---
 
-## Ссылки по хакатону (тык на бейджик)
+## 🔗🔗 Ссылки по хакатону (тык на бейджик)
 
 [Документация в Google Docs]
 [![Google Docs](https://img.shields.io/badge/Google%20Docs-blue?style=flat&logo=google-docs)](https://docs.google.com/document/d/1lgbiqXAzj9J_sWFw-ep4w4qTQOpA2A_-5ieAzwoP62M/edit?tab=t.0)
