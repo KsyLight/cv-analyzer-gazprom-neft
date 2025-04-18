@@ -66,9 +66,4 @@ lime
 
 ## Наша команда
 
-Участник | GitHub
-Егор | KsyLight
-Аким | Akim-norfeg
-Максим | Swagozavr
-Катя | klevkina
-Аня | ссылка пока нет
+
