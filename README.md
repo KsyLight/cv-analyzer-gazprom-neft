@@ -66,4 +66,31 @@ lime
 
 ## Наша команда
 
+## Наша команда
 
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://avatars.githubusercontent.com/KsyLight.png" width="100" alt="Егор"/>
+      <p><strong>Егор</strong><br/><a href="https://github.com/KsyLight">KsyLight</a></p>
+    </td>
+    <td align="center">
+      <img src="https://avatars.githubusercontent.com/Akim-norfeg.png" width="100" alt="Аким"/>
+      <p><strong>Аким</strong><br/><a href="https://github.com/Akim-norfeg">Akim-norfeg</a></p>
+    </td>
+    <td align="center">
+      <img src="https://avatars.githubusercontent.com/Swagozavr.png" width="100" alt="Максим"/>
+      <p><strong>Максим</strong><br/><a href="https://github.com/Swagozavr">Swagozavr</a></p>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="https://avatars.githubusercontent.com/klevkina.png" width="100" alt="Катя"/>
+      <p><strong>Катя</strong><br/><a href="https://github.com/klevkina">klevkina</a></p>
+    </td>
+    <td align="center">
+      <img src="https://via.placeholder.com/100?text=%D0%90%D0%BD%D1%8F" width="100" alt="Аня"/>
+      <p><strong>Аня</strong><br/>_ссылка пока нет_</p>
+    </td>
+  </tr>
+</table>
