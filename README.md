@@ -8,9 +8,7 @@
 ## 🔗 Демо
 
 👉 [Веб-приложение](https://cv-analyzer-gazprom-neft.streamlit.app/)
-![🌙 Dark Mode Recommended](https://img.shields.io/badge/theme-dark-blue?style=flat&logo=github)
-
-**Рекомендуем** использовать тёмную тему для наилучшего восприятия контента.
+![🌙 Dark Mode Recommended](https://img.shields.io/badge/theme-dark-blue?style=flat&logo=github) **Рекомендуем** использовать тёмную тему для наилучшего восприятия контента.
 
 ---
 
