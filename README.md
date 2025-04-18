@@ -113,4 +113,6 @@ lime
   </tr>
 </table>
 
-![Котик](others/cat.jpg)
+<p align="center">
+  <img src="others/cat.jpg" alt="Котик AI" width="200" />
+</p>
