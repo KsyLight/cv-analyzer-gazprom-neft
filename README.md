@@ -90,7 +90,7 @@ lime
     </td>
     <td align="center">
       <img src="https://via.placeholder.com/100?text=%D0%90%D0%BD%D1%8F" width="100" alt="Аня"/>
-      <p><strong>Аня</strong><br/><em>ссылка пока нет</em></p>
+      <p><strong>Аня</strong><br/><em>ссылки пока нет</em></p>
     </td>
   </tr>
 </table>
