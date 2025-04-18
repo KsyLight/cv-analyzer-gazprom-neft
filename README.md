@@ -44,4 +44,21 @@ CV-ANALYZER-GAZPROM-NEFT/
 ├── app.py                     # Основной Streamlit-приложение
 ├── requirements.txt           # Список зависимостей Python
 └── README.md                  # Документация проекта
+'''
 
+## Requirements
+
+```bash
+streamlit
+transformers
+huggingface-hub
+torch
+matplotlib
+seaborn
+scikit-learn
+pdfminer.six
+python-docx
+requests
+numpy
+mplcyberpunk
+lime
