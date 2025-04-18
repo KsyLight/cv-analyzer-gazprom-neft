@@ -7,7 +7,7 @@
 
 [Веб-приложение](https://cv-analyzer-gazprom-neft.streamlit.app/)
 [![🌙 Dark Mode Recommended](https://img.shields.io/badge/theme-dark-blue?style=flat&logo=github)](https://cv-analyzer-gazprom-neft.streamlit.app/) \
-**Рекомендуем** использовать тёмную тему для наилучшего восприятия контента.
+> **Рекомендуем** использовать тёмную тему для наилучшего восприятия контента.
 
 [Документация в Google Docs](https://docs.google.com/document/d/1lgbiqXAzj9J_sWFw-ep4w4qTQOpA2A_-5ieAzwoP62M/edit?tab=t.0)
 [![Google Docs](https://img.shields.io/badge/Google%20Docs-blue?style=flat)](https://docs.google.com/document/d/1lgbiqXAzj9J_sWFw-ep4w4qTQOpA2A_-5ieAzwoP62M/edit?tab=t.0)
