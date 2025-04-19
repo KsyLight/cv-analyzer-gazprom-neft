@@ -71,7 +71,7 @@ CV-ANALYZER-GAZPROM-NEFT/
 │   ├── explanation.py         # Интерпретируемость модели (LIME, Attention)
 │   ├── model_service.py       # Загрузка модели, предсказания с учётом threshold
 │   └── resume_processor.py    # Объединение резюме + GitHub текстов
-├── app.py                     # Основной Streamlit-приложение
+├── app.py                     # Основное Streamlit-приложение
 ├── requirements.txt           # Список зависимостей Python
 └── README.md                  # Документация проекта
 ```
