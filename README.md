@@ -1,4 +1,3 @@
-![Repo Views](https://komarev.com/ghpvc/?username=KsyLight&repo=cv-analyzer-gazprom-neft&color=blue&style=for-the-badge)
 # 🤖 CV-Analyzer: Анализ компетенций по матрице Альянса ИИ
 ---
 - Проект по хакатону от Газпром Нефти и СПбГЭУ
