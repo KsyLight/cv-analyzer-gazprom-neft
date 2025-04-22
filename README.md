@@ -5,7 +5,7 @@
 ---
 ## 🔗 Ссылки
 
-[Веб‑приложение](https://cv-analyzer-gazprom-neft.streamlit.app/)  [![🌙 Dark Mode Recommended](https://img.shields.io/badge/theme-dark-blue?style=flat&logo=github)](https://cv-analyzer-gazprom-neft.streamlit.app/) [![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat)](https://cv-analyzer-gazprom-neft.streamlit.app/)
+[Веб‑приложение](https://cv-analyzer-gpn.ru/)  [![🌙 Dark Mode Recommended](https://img.shields.io/badge/theme-dark-blue?style=flat&logo=github)](https://cv-analyzer-gpn.ru/) [![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat)](https://cv-analyzer-gpn.ru/)
 
 > **Рекомендуем** использовать **тёмную тему** для наилучшего восприятия контента.
 
