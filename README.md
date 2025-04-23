@@ -6,7 +6,7 @@
 ---
 
 <p align="center">
-  <img src="others/logo.png" alt="Логотип проекта" width="300"/>
+  <img src="others/logo.png" alt="Логотип проекта" width="200"/>
 </p>
 
 ## 🔗 Ссылки
