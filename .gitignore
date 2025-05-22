@@ -1,3 +1,4 @@
 token.json
 .streamlit/secrets.toml
 *.json
+client_secret_*.json
