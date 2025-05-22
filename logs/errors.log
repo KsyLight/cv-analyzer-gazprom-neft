@@ -1,0 +1,34 @@
+2025-05-22 21:27:41,570 — ERROR — Ошибка загрузки модели
+Traceback (most recent call last):
+  File "/root/cv-analyzer-gazprom-neft/app.py", line 269, in load_model_safe
+    return _load_model()
+  File "/usr/local/lib/python3.10/dist-packages/streamlit/runtime/caching/cache_utils.py", line 219, in __call__
+    return self._get_or_create_cached_value(args, kwargs, spinner_message)
+  File "/usr/local/lib/python3.10/dist-packages/streamlit/runtime/caching/cache_utils.py", line 261, in _get_or_create_cached_value
+    return self._handle_cache_miss(cache, value_key, func_args, func_kwargs)
+  File "/usr/local/lib/python3.10/dist-packages/streamlit/runtime/caching/cache_utils.py", line 320, in _handle_cache_miss
+    computed_value = self._info.func(*func_args, **func_kwargs)
+  File "/root/cv-analyzer-gazprom-neft/app.py", line 260, in _load_model
+    login(token=st.secrets["HUGGINGFACE_TOKEN"])
+  File "/usr/local/lib/python3.10/dist-packages/streamlit/runtime/secrets.py", line 470, in __getitem__
+    value = self._parse()[key]
+  File "/usr/local/lib/python3.10/dist-packages/streamlit/runtime/secrets.py", line 372, in _parse
+    raise StreamlitSecretNotFoundError(error_msg)
+streamlit.errors.StreamlitSecretNotFoundError: No secrets found. Valid paths for a secrets.toml file or secret directories are: /root/.streamlit/secrets.toml, /root/cv-analyzer-gazprom-neft/.streamlit/secrets.toml
+2025-05-22 21:39:48,412 — ERROR — Ошибка загрузки модели
+Traceback (most recent call last):
+  File "/root/cv-analyzer-gazprom-neft/app.py", line 269, in load_model_safe
+    return _load_model()
+  File "/usr/local/lib/python3.10/dist-packages/streamlit/runtime/caching/cache_utils.py", line 219, in __call__
+    return self._get_or_create_cached_value(args, kwargs, spinner_message)
+  File "/usr/local/lib/python3.10/dist-packages/streamlit/runtime/caching/cache_utils.py", line 261, in _get_or_create_cached_value
+    return self._handle_cache_miss(cache, value_key, func_args, func_kwargs)
+  File "/usr/local/lib/python3.10/dist-packages/streamlit/runtime/caching/cache_utils.py", line 320, in _handle_cache_miss
+    computed_value = self._info.func(*func_args, **func_kwargs)
+  File "/root/cv-analyzer-gazprom-neft/app.py", line 260, in _load_model
+    login(token=st.secrets["HUGGINGFACE_TOKEN"])
+  File "/usr/local/lib/python3.10/dist-packages/streamlit/runtime/secrets.py", line 470, in __getitem__
+    value = self._parse()[key]
+  File "/usr/local/lib/python3.10/dist-packages/streamlit/runtime/secrets.py", line 372, in _parse
+    raise StreamlitSecretNotFoundError(error_msg)
+streamlit.errors.StreamlitSecretNotFoundError: No secrets found. Valid paths for a secrets.toml file or secret directories are: /root/.streamlit/secrets.toml, /root/cv-analyzer-gazprom-neft/.streamlit/secrets.toml
