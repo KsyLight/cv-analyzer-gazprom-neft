@@ -41,7 +41,7 @@
 ## Структура проекта
 
 ```plaintext
-CV-ANALYZER-GAZPROM-NEFT/
+CV-ANALYZER-GAZPROM-NEFT/ [недействительно, будет переписано]
 ├── .streamlit/                # Конфигурации Streamlit с доп. настройками
 │   └── config.toml
 ├── others/                    # Прочие ресурсы проекта
