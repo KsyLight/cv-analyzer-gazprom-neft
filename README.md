@@ -183,7 +183,7 @@ python-docx
 requests
 mplcyberpunk
 lime
-st-aggrid
+streamlit-aggrid
 google-auth-oauthlib
 google-auth-httplib2
 google-api-python-client
