@@ -41,21 +41,35 @@
 ## Структура проекта
 
 ```plaintext
-CV-ANALYZER-GAZPROM-NEFT/ [недействительно, будет переписано]
-├── .streamlit/                # Конфигурации Streamlit с доп. настройками
-│   └── config.toml
-├── others/                    # Прочие ресурсы проекта
-├── utils/                     # Вспомогательные модули и логика
-│   ├── __init__.py            # Инициализация пакета
-│   ├── constants.py           # Список компетенций, матрица профессий и рекомендации
-│   ├── cv_reader.py           # Извлечение и очистка текста из резюме
-│   ├── github_reader.py       # Поиск и парсинг GitHub-профиля пользователя
-│   ├── explanation.py         # Интерпретируемость модели (LIME, Attention)
-│   ├── model_service.py       # Загрузка модели, предсказания с учётом threshold
-│   └── resume_processor.py    # Объединение резюме + GitHub текстов
-├── app.py                     # Основное Streamlit-приложение
-├── requirements.txt           # Список зависимостей Python
-└── README.md                  # Документация проекта
+CV-ANALYZER-GAZPROM-NEFT/
+├── .devcontainer/                   # Конфиг для удалённой разработки (VS Code Devcontainer)
+│   └── devcontainer.json
+├── .streamlit/                      # Конфигурации Streamlit
+│   ├── config.toml
+│   └── secrets.toml
+├── logs/                            # Лог-файлы
+│   └── errors.log
+├── others/                          # Прочие ресурсы проекта
+│   ├── cat.jpg
+│   ├── final-file.ipynb
+│   ├── logo.png
+│   ├── resume_dataset.csv
+│   └── …  
+├── temp/                            # Временные файлы при загрузке резюме
+├── utils/                           # Вспомогательные модули и логика
+│   ├── __init__.py
+│   ├── constants.py                # Список компетенций, матрица профессий и рекомендации
+│   ├── cv_reader.py                # Извлечение и очистка текста из резюме
+│   ├── github_reader.py            # Поиск и парсинг GitHub-профиля
+│   ├── explanation.py              # Интерпретируемость модели
+│   ├── model_service.py            # Загрузка модели, предсказания
+│   └── resume_processor.py         # Объединение резюме + GitHub текстов
+├── app.py                           # Основное Streamlit-приложение
+├── save_token.py                    # Скрипт для первичной генерации token.json
+├── client_secret_…json              # OAuth2-клиент (Google Cloud)
+├── token.json                       # OAuth2-токен для Gmail API
+├── README.md                        # Документация проекта
+└── requirements.txt                 # Зависимости Python
 ```
 
 ## Requirements
