@@ -13,6 +13,8 @@ from utils.constants import (
     profession_matrix,
     recommendations,
 )
+from utils.cv_reader import preprocess_text
+from utils.github_reader import collect_github_text
 
 # ─── Кэшируем тяжёлые функции ─────────────────────────────────────────────────
 @st.cache_data

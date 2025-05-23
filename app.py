@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import mplcyberpunk
 
-from utils.cv_reader import read_resume_from_file, preprocess_text
-from utils.github_reader import extract_github_links_from_text, collect_github_text
+from utils.cv_reader import read_resume_from_file
+from utils.github_reader import extract_github_links_from_text
 from utils.constants import (
     competency_list,
     profession_matrix,

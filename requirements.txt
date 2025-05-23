@@ -12,7 +12,6 @@ pdfminer.six
 python-docx
 requests
 mplcyberpunk
-lime
 streamlit-aggrid
 google-auth-oauthlib
 google-auth-httplib2
