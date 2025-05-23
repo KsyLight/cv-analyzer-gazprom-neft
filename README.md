@@ -127,6 +127,11 @@
 
 [Сама матрица](https://drive.google.com/file/d/1gRqcL8P2G36LzYTTkSae8-0F_nW6LbDj/view?usp=sharing)
 
+## ML-схема (является теоретическим вариантом с дальнейшим практическим применением)
+<div align="center">
+  <img src="others/ML-схема.png" alt="ML-схема" style="width:90%; max-width:1200px; height:auto;" />
+</div>
+
 ## Структура проекта
 
 ```plaintext
