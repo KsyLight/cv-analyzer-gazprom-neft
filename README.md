@@ -22,6 +22,14 @@
 [UI-дизайн в Figma](https://www.figma.com/proto/TxoDBBFjM9KUHfCgTVmDLb/GPN_final?node-id=2-780&t=gy4Vn8H3mLjulGLf-1)
 [![Figma](https://img.shields.io/badge/Figma-ff5c00?style=flat&logo=figma&logoColor=white)]([https://drive.google.com/file/d/1SinddTpnpcgnC9aeVkxjpjW-B3onb4e8/view?usp=sharing](https://www.figma.com/proto/BwBWxFMjqzGnd7Uqwfw3Yx/GPN-case?node-id=1-3&p=f&t=mjnk6rp689Pwkmsa-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A3)) ОБНОВИТЬ ССЫЛКУ
 
+## Стек анализируемых профессий в соответствии с матрицей [Альянса ИИ](https://a-ai.ru/)
+
+- Аналитик данных (Data scientist, ML engineer)
+- Менеджер в ИИ (Manager in AI)
+- Технический аналитик в ИИ (Technical analyst in AI)
+- Инженер данных (Data engineer)
+
+[Сама матрица](https://drive.google.com/file/d/1gRqcL8P2G36LzYTTkSae8-0F_nW6LbDj/view?usp=sharing)
 
 ---
 
@@ -126,15 +134,6 @@ CV-Analyzer — это веб-сервис для автоматизирован
 - Два интерфейса в одном: самооценка кандидата и аналитический дашборд для HR  
 - Автоматическая рассылка писем через Gmail API с адаптивными рекомендациями  
 - Полный MLOps‑контур: кеширование, CI/CD, мониторинг и авто‑переобучение моделей  
-
-## Стек анализируемых профессий в соответствии с матрицей [Альянса ИИ](https://a-ai.ru/)
-
-- Аналитик данных (Data scientist, ML engineer)
-- Менеджер в ИИ (Manager in AI)
-- Технический аналитик в ИИ (Technical analyst in AI)
-- Инженер данных (Data engineer)
-
-[Сама матрица](https://drive.google.com/file/d/1gRqcL8P2G36LzYTTkSae8-0F_nW6LbDj/view?usp=sharing)
 
 ## ML-схема (является теоретическим вариантом с дальнейшим практическим применением)
 <div align="center">
