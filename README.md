@@ -20,7 +20,7 @@
 [![PowerPoint](https://img.shields.io/badge/PowerPoint-darkorange?style=flat&logo=microsoft-powerpoint)](https://drive.google.com/file/d/1lXNkq6ADhXyugW23C4b5t-7YkujMGFh8/view?usp=sharing)
 
 [UI-дизайн в Figma](https://www.figma.com/proto/BwBWxFMjqzGnd7Uqwfw3Yx/GPN-case?node-id=1-3&p=f&t=mjnk6rp689Pwkmsa-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A3)
-[![Figma](https://img.shields.io/badge/Figma-ff5c00?style=flat&logo=figma&logoColor=white)]([https://drive.google.com/file/d/1SinddTpnpcgnC9aeVkxjpjW-B3onb4e8/view?usp=sharing](https://www.figma.com/proto/BwBWxFMjqzGnd7Uqwfw3Yx/GPN-case?node-id=1-3&p=f&t=mjnk6rp689Pwkmsa-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A3))
+[![Figma](https://www.figma.com/proto/TxoDBBFjM9KUHfCgTVmDLb/GPN_final?node-id=2-780&t=gy4Vn8H3mLjulGLf-1)
 
 
 ---
