@@ -34,7 +34,7 @@
 ---
 
 ## Как пользоваться CV-Analyzer
-CV-Analyzer — это веб-сервис для автоматизированного анализа резюме и рассылки кандидатов по результатам. Просто откройте ссылку на приложение в браузере и следуйте инструкции.
+CV-Analyzer – это веб-сервис для автоматизированного анализа резюме и рассылки кандидатов по результатам. Просто откройте ссылку на приложение в браузере и следуйте инструкции.
 > ---
 > ## Инструкция
 > ### 1. Выбор роли
@@ -144,34 +144,40 @@ CV-Analyzer — это веб-сервис для автоматизирован
 
 ```plaintext
 CV-ANALYZER-GAZPROM-NEFT/
-├── .devcontainer/                   # Конфиг для удалённой разработки (VS Code Devcontainer)
+├── .devcontainer/    # Конфигурация среды разработки Dev Container
 │   └── devcontainer.json
-├── .streamlit/                      # Конфигурации Streamlit
+├── .streamlit/       # Настройки Streamlit (конфиг и секреты)
 │   ├── config.toml
 │   └── secrets.toml
-├── logs/                            # Лог-файлы
+├── logs/             # Логи ошибок приложения
 │   └── errors.log
-├── others/                          # Прочие ресурсы проекта
+├── others/           # Различные ресурсы (изображения, ноутбуки, датасеты)
 │   ├── cat.jpg
 │   ├── final-file.ipynb
 │   ├── logo.png
+│   ├── ML-схема.png
 │   ├── resume_dataset.csv
-│   └── …  
-├── temp/                            # Временные файлы при загрузке резюме
-├── utils/                           # Вспомогательные модули и логика
+│   └── Оптимизация+парсинг_из_гитхаба.ipynb
+├── temp/             # Временные файлы при обработке резюме
+├── utils/            # Вспомогательные модули и логика
+│   ├── __pycache__/  # Скомпилированные файлы Python
+│   │   ├── __init__.cpython-310.pyc
+│   │   ├── constants.cpython-310.pyc
+│   │   ├── cv_reader.cpython-310.pyc
+│   │   └── github_reader.cpython-310.pyc
 │   ├── __init__.py
-│   ├── constants.py                # Список компетенций, матрица профессий и рекомендации
-│   ├── cv_reader.py                # Извлечение и очистка текста из резюме
-│   ├── github_reader.py            # Поиск и парсинг GitHub-профиля
-│   ├── explanation.py              # Интерпретируемость модели
-│   ├── model_service.py            # Загрузка модели, предсказания
-│   └── resume_processor.py         # Объединение резюме + GitHub текстов
-├── app.py                           # Основное Streamlit-приложение
-├── save_token.py                    # Скрипт для первичной генерации token.json
-├── client_secret_…json              # OAuth2-клиент (Google Cloud)
-├── token.json                       # OAuth2-токен для Gmail API
-├── README.md                        # Документация проекта
-└── requirements.txt                 # Зависимости Python
+│   ├── cached_app_utils.py  # Кэшированные утилиты Streamlit
+│   ├── constants.py         # Константы: компетенции, матрицы, шаблоны
+│   ├── cv_reader.py         # Извлечение и предобработка текста резюме
+│   ├── email.py             # Логика работы с отправкой писем
+│   └── github_reader.py     # Парсинг и сбор текста с GitHub
+├── .gitignore        # Правила игнорирования для Git
+├── app.py            # Основное Streamlit-приложение
+├── client_secret_2_496304292584-focgmts10r0pc3cplngprpkiqshp5d2j.apps.googleusercontent.com.json  # OAuth-файл клиента
+├── Dockerfile        # Образ контейнера для деплоя
+├── README.md         # Описание проекта и инструкции
+├── requirements.txt  # Зависимости Python
+└── token.json        # Сохранённые OAuth-токены
 ```
 
 ## Requirements
