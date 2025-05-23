@@ -16,7 +16,7 @@
 [Документация в Google Docs](https://docs.google.com/document/d/1lgbiqXAzj9J_sWFw-ep4w4qTQOpA2A_-5ieAzwoP62M/edit?tab=t.0)
 [![Google Docs](https://img.shields.io/badge/Google%20Docs-blue?style=flat)](https://docs.google.com/document/d/1lgbiqXAzj9J_sWFw-ep4w4qTQOpA2A_-5ieAzwoP62M/edit?tab=t.0)
 
-[Презентация по хакатону](https://drive.google.com/file/d/1lXNkq6ADhXyugW23C4b5t-7YkujMGFh8/view?usp=sharing)
+[Презентация по хакатону](https://drive.google.com/file/d/1lXNkq6ADhXyugW23C4b5t-7YkujMGFh8/view?usp=sharing) ОБНОВИТЬ ПРЕЗЕНТАЦИЮ
 [![PowerPoint](https://img.shields.io/badge/PowerPoint-darkorange?style=flat&logo=microsoft-powerpoint)](https://drive.google.com/file/d/1lXNkq6ADhXyugW23C4b5t-7YkujMGFh8/view?usp=sharing)
 
 [UI-дизайн в Figma](https://www.figma.com/proto/TxoDBBFjM9KUHfCgTVmDLb/GPN_final?node-id=2-780&t=gy4Vn8H3mLjulGLf-1)
