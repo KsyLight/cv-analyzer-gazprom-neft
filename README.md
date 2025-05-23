@@ -76,18 +76,24 @@ CV-ANALYZER-GAZPROM-NEFT/
 
 ```bash
 streamlit
+pandas
+psycopg2-binary
+torch
 transformers
 huggingface-hub
-torch
 matplotlib
 seaborn
 scikit-learn
+numpy
 pdfminer.six
 python-docx
 requests
-numpy
 mplcyberpunk
 lime
+st-aggrid
+google-auth-oauthlib
+google-auth-httplib2
+google-api-python-client
 ```
 
 ## Проблематика и целевая аудиторий
