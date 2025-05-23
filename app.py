@@ -1,24 +1,14 @@
 import streamlit as st
 import pandas as pd
-import re
 import logging
 import os
-import uuid
 import psycopg2
 import torch
 import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
-import seaborn as sns
 import mplcyberpunk
-import random
-
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
-from huggingface_hub import login
 
 from utils.cv_reader import read_resume_from_file, preprocess_text
 from utils.github_reader import extract_github_links_from_text, collect_github_text
@@ -26,210 +16,24 @@ from utils.constants import (
     competency_list,
     profession_matrix,
     profession_names,
-    recommendations,)
+    recommendations,
+    THRESHOLD)
+from utils.email import (
+    get_gmail_service,
+    send_email_custom,
+    send_bulk_mail,
+    send_confirmation_email,
+)
+from utils.cached_app_utils import (
+    preprocess_cached,
+    collect_github_text_cached,
+    load_model_safe,
+    validate_candidate_form,
+    save_application_to_db,
+)
 
-import base64
-from email.mime.text import MIMEText
-from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
-from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
-
+import psycopg2
 import psycopg2.errors
-from st_aggrid import AgGrid, GridOptionsBuilder
-
-# ─── Константы ────────────────────────────────────────────────────────────────
-THRESHOLD = 0.46269254347612143  # порог для бинаризации меток модели
-# Файл учётных данных OAuth
-CREDENTIALS_FILE = "client_secret_2_496304292584-focgmts10r0pc3cplngprpkiqshp5d2j.apps.googleusercontent.com.json"
-# Файл для хранения токена доступа
-TOKEN_FILE = "token.json"
-# Область прав: отправка почты
-SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
-
-# ─── Gmail API setup ────────────────────────────────────────────────────────
-def get_gmail_service():
-    creds = None
-    # Попробуем загрузить существующий токен, если он есть и не пустой
-    if os.path.exists(TOKEN_FILE) and os.path.getsize(TOKEN_FILE) > 0:
-        try:
-            creds = Credentials.from_authorized_user_file(TOKEN_FILE, SCOPES)
-        except Exception:
-            # файл повреждён или не JSON — забываем о нём
-            creds = None
-
-    # Если токена нет или он просрочен — начинаем OAuth flow
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(CREDENTIALS_FILE, SCOPES)
-            creds = flow.run_local_server(port=0)
-        # Сохраняем свежие токены в файл
-        with open(TOKEN_FILE, "w") as token_f:
-            token_f.write(creds.to_json())
-
-    return build("gmail", "v1", credentials=creds)
-
-# Массовая авторасслыка
-def send_email_custom(to_email: str, subject: str, body_text: str) -> bool:
-    """
-    Отправляет письмо через Gmail API и возвращает True/False.
-    """
-    # валидируем адрес
-    to_email = to_email.strip()
-
-    msg = MIMEText(body_text)
-    msg["To"]      = to_email
-    msg["From"]    = "hacaton.gpn@gmail.com"
-    msg["Subject"] = subject
-    raw = base64.urlsafe_b64encode(msg.as_bytes()).decode()
-
-    service = get_gmail_service()
-    try:
-        service.users().messages().send(userId="me", body={"raw": raw}).execute()
-        return True
-    except HttpError as e:
-        if e.resp.status == 400 and "Invalid To header" in str(e):
-            st.error(f"⚠️ Некорректный email **{to_email}**, рассылка пропущена.")
-            return False
-        logging.error("Ошибка при отправке письма через Gmail API", exc_info=True)
-        st.error("⚠️ Не удалось отправить письмо. Попробуйте позже.")
-        return False
-
-# ─── Массовая авторассылка ───────────────────────────────────────────────────────
-def send_bulk_mail(row: pd.Series, prof: str, threshold: float, above: bool) -> bool:
-    """
-    row: pd.Series с полями grade0…grade3, sender_email, name, code, score
-    prof: профессия, по которой идёт рассылка
-    threshold: значение T, которое выбрал HR
-    above: True если row['score'] >= threshold
-    """
-    email = str(row["sender_email"]).strip()
-    name  = row["name"]
-    score = row["score"]
-    code  = row["code"]
-
-    # 0) явная валидация e-mail
-    if "@" not in email or "." not in email.split("@")[-1]:
-        logging.warning(f"BulkMail: некорректный email {email}, пропущен.")
-        return False
-
-    # 1) idx и вектор требований
-    idx = profession_names.index(prof)
-    req_vec = profession_matrix[:, idx]
-
-    # 2) вектор кандидата
-    user_vec = [
-        0 if comp in row["grade0"]
-        else 1 if comp in row["grade1"]
-        else 2 if comp in row["grade2"]
-        else 3 if comp in row["grade3"]
-        else 0
-        for comp in competency_list
-    ]
-
-    # 3) слабые компетенции
-    weak = [i for i,(u,r) in enumerate(zip(user_vec,req_vec)) if u<r]
-
-    # 4) рекомендации
-    rec_texts = []
-    for i in weak:
-        comp = competency_list[i]
-        recs = recommendations.get(comp, [])
-        if recs:
-            rec_texts.append(f"- {comp}: {random.choice(recs)}")
-
-    # 5) выбираем шаблоны
-    if above:
-        subject = "Поздравляем! Вы прошли первый этап"
-        intro = (
-            f"Здравствуйте, {name}!\n\n"
-            f"Вы отправили заявку на вакансию «{prof}» и набрали {score:.1f}% соответствия.\n"
-            "Поздравляем — вы прошли первый этап отбора!"
-        )
-        if rec_texts:
-            intro += "\n\nРекомендуем перед техническим собеседованием освежить в памяти следующие материалы:\n"
-        else:
-            # если нет слабых компетенций, добавляем приглашение на интервью
-            intro += "\n\nСкоро вас ожидает техническое интервью!"
-    else:
-        subject = "Спасибо за участие в конкурсе"
-        intro = (
-            f"Здравствуйте, {name}!\n\n"
-            f"Благодарим вас за интерес к вакансии «{prof}».\n"
-            f"На данном этапе ваш профиль (соответствие {score:.1f}%) не полностью соответствует требованиям."
-        )
-        if rec_texts:
-            intro += "\n\nНиже — рекомендации по компетенциям, которые стоит подтянуть:\n"
-
-    # 6) тело письма
-    body = intro
-    if rec_texts:
-        body += "\n" + "\n".join(rec_texts)
-    body += "\n\nС уважением,\nКоманда CV-Analyzer"
-
-    # 7) отправка
-    ok = send_email_custom(email, subject, body)
-    # логируем в файл
-    if ok:
-        logging.info(f"BulkMail: {email} [{prof}] sent to {'A' if above else 'B'} group.")
-    else:
-        logging.error(f"BulkMail: {email} [{prof}] failed.")
-    return ok
-
-# ─── Настройка отправки почты ──────────────────────────────────────────────────
-def send_confirmation_email(
-    to_email: str,
-    code: int,
-    candidate_name: str,
-    professions: list[str]
-) -> bool:
-    """
-    Возвращает True, если письмо успешно отправлено,
-    False — если невалидный email или при других ошибках.
-    """
-    # Очищаем и валидируем to_email
-    to_email = str(to_email).strip()
-    if "@" not in to_email or "." not in to_email.split("@")[-1]:
-        st.error(f"⚠️ Некорректный email: **{to_email}**, поэтому авторассылка не придёт. Проверьте правильность почты, но мы уже внесли Ваше резюме в базу данных.")
-        return False
-
-    # Формируем тело
-    profs_str = ", ".join(professions)
-    subject = "Ваша заявка принята"
-    body_text = f"""Здравствуйте, {candidate_name}!
-
-Вы отправили заявку на профессии: {profs_str}
-Ваша заявка (код #{code}) принята и будет рассмотрена в ближайшее время.
-Спасибо за интерес к нашим вакансиям!
-
-С уважением,
-Команда CV-Analyzer
-"""
-
-    msg = MIMEText(body_text)
-    msg["To"]      = to_email
-    msg["From"]    = "hacaton.gpn@gmail.com"
-    msg["Subject"] = subject
-    raw = base64.urlsafe_b64encode(msg.as_bytes()).decode()
-
-    service = get_gmail_service()
-    try:
-        service.users().messages().send(userId="me", body={"raw": raw}).execute()
-        return True
-    except HttpError as e:
-        # ловим specifically Invalid To header
-        msg_text = str(e)
-        if e.resp.status == 400 and "Invalid To header" in msg_text:
-            st.error(f"⚠️ Некорректный адрес: **{to_email}**, поэтому авторассылка не придёт. Проверьте правильность почты, но мы уже внесли Ваше резюме в базу данных.")
-            return False
-        # для любых других ошибок
-        logging.error("Ошибка при отправке письма через Gmail API", exc_info=True)
-        st.error("⚠️ Не удалось отправить письмо. Попробуйте позже.")
-        return False
-
 
 # ─── Общие настройки ────────────────────────────────────────────────────────────
 os.makedirs("logs", exist_ok=True)
@@ -245,130 +49,6 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed"
 )
-
-# ─── Кэшируем тяжёлые функции ─────────────────────────────────────────────────
-@st.cache_data
-def preprocess_cached(text: str) -> str:
-    return preprocess_text(text)
-
-@st.cache_data
-def collect_github_text_cached(link: str) -> str:
-    return collect_github_text(link)
-
-@st.cache_resource
-def _load_model():
-    login(token=st.secrets["HUGGINGFACE_TOKEN"])
-    repo_id = "KsyLight/resume-ai-competency-model"
-    tokenizer = AutoTokenizer.from_pretrained(repo_id, token=st.secrets["HUGGINGFACE_TOKEN"])
-    model = AutoModelForSequenceClassification.from_pretrained(repo_id, token=st.secrets["HUGGINGFACE_TOKEN"])
-    model.eval()
-    return tokenizer, model
-
-def load_model_safe():
-    try:
-        return _load_model()
-    except Exception:
-        st.error("Не удалось загрузить модель. Проверьте токен или соединение.")
-        logging.error("Ошибка загрузки модели", exc_info=True)
-        st.stop()
-
-def validate_candidate_form(surname, name, email, professions, telegram_handle, phone, consent):
-    if not all([surname, name, email, professions, telegram_handle, phone]):
-        return "Пожалуйста, заполните все поля формы."
-    if not 1 <= len(professions) <= 2:
-        return "Нужно выбрать хотя бы одну и не более двух профессий."
-    if not re.match(r"^\+7\d{10}$", phone):
-        return "Телефон должен быть в формате +7XXXXXXXXXX."
-    if not consent:
-        return "Необходимо согласиться на обработку персональных данных."
-    return None
-
-def save_application_to_db():
-    # Составляем grade0…grade3
-    grades = st.session_state.user_grades
-    grade_lists = {i: [] for i in range(4)}
-    for comp, g in zip(competency_list, grades):
-        grade_lists[g].append(comp)
-
-    # Расчёт процентов соответствия
-    user_vector = np.array(st.session_state.user_grades)
-    percentages = []
-    for i, prof in enumerate(profession_names):
-        req = profession_matrix[:, i]
-        tot = np.count_nonzero(req)
-        match = np.count_nonzero((user_vector >= req) & (req > 0))
-        pct = match / tot * 100 if tot else 0.0
-        percentages.append(pct)
-
-    datan_score      = percentages[profession_names.index("Аналитик данных")]
-    ai_manager_score = percentages[profession_names.index("Менеджер в ИИ")]
-    techan_score     = percentages[profession_names.index("Технический аналитик в ИИ")]
-    daten_score      = percentages[profession_names.index("Инженер данных")]
-
-    # Файл резюме
-    uploaded = st.session_state.uploaded_file
-    file_bytes = uploaded.getvalue()
-    filename   = uploaded.name
-
-    # GitHub-ссылки
-    links = st.session_state.gh_links
-    git_available = bool(links)
-    url_github = links[0] if links else None
-
-    fields = dict(
-        original_filename    = filename,
-        cv_file              = psycopg2.Binary(file_bytes),
-        grade0               = grade_lists[0],
-        grade1               = grade_lists[1],
-        grade2               = grade_lists[2],
-        grade3               = grade_lists[3],
-        sender_email         = st.session_state.email,
-        code                 = uuid.uuid4().int & 0x7FFFFFFF,
-        ai_manager_score     = ai_manager_score,
-        techan_score         = techan_score,
-        datan_score          = datan_score,
-        daten_score          = daten_score,
-        git_available        = git_available,
-        name                 = st.session_state.name,
-        surname              = st.session_state.surname,
-        patronymic           = st.session_state.patronymic,
-        url_github           = url_github,
-        telegram_handle      = st.session_state.telegram_handle,
-        phone                = st.session_state.phone,
-        consent              = st.session_state.consent,
-        selected_professions = st.session_state.selected_professions,
-        form_submitted_at    = st.session_state.form_submitted_at
-    )
-
-    conn = psycopg2.connect(
-        host="localhost",
-        dbname="resumes",
-        user="appuser",
-        password="duduki"
-    )
-    cur = conn.cursor()
-    cur.execute("""
-        INSERT INTO resume_records
-          (original_filename, cv_file, grade0, grade1, grade2, grade3,
-           sender_email, code,
-           ai_manager_score, techan_score, datan_score, daten_score,
-           git_available, name, surname, patronymic, url_github,
-           telegram_handle, phone, consent, selected_professions, form_submitted_at)
-        VALUES (
-          %(original_filename)s, %(cv_file)s, %(grade0)s, %(grade1)s,
-          %(grade2)s, %(grade3)s, %(sender_email)s, %(code)s,
-          %(ai_manager_score)s, %(techan_score)s, %(datan_score)s, %(daten_score)s,
-          %(git_available)s, %(name)s, %(surname)s, %(patronymic)s, %(url_github)s,
-          %(telegram_handle)s, %(phone)s, %(consent)s, %(selected_professions)s,
-          %(form_submitted_at)s
-        )
-        RETURNING id;
-    """, fields)
-    rec_id = cur.fetchone()[0]
-    conn.commit()
-    cur.close()
-    conn.close()
-    return rec_id
 
 # ─── Выбор роли ────────────────────────────────────────────────────────────────
 if "role" not in st.session_state:

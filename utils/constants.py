@@ -233,3 +233,12 @@ recommendations = {
         "https://kubsau.ru/upload/iblock/769/7698e43fcfcf8649fa4922d978f07b8f.pdf"
     ]
 }
+
+# Порог для бинаризации меток модели
+THRESHOLD = 0.46269254347612143
+# Файл учётных данных OAuth
+CREDENTIALS_FILE = "client_secret_2_496304292584-focgmts10r0pc3cplngprpkiqshp5d2j.apps.googleusercontent.com.json"
+# Файл для хранения токена доступа
+TOKEN_FILE = "token.json"
+# Область прав: отправка почты
+SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
