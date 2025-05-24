@@ -1,7 +1,7 @@
 # CV-Analyzer: Анализ компетенций по матрице Альянса ИИ
 
 ---
-- Проект по хакатону от Газпром Нефти и СПбГЭУ
+- Проект по кейс-чемпионату от Газпром Нефти, СБЕР'а и СПбГЭУ 
 - Интерактивное веб-приложение на базе Streamlit для автоматизированного анализа резюме и определения уровня владения ИИ-компетенциями. Основано на модели, обученной по матрице компетенций Альянса ИИ, с возможностью персонализированных рекомендаций, визуализации соответствия профессиям и интеграцией GitHub-профиля пользователя, а также разделением на 2 пути: путь кандидата и путь HR-специалиста, в котором можно просматривать кандидатов, а также автоматизированно отправлять ревью.
 ---
 
@@ -16,7 +16,7 @@
 [Документация в Google Docs](https://docs.google.com/document/d/1lgbiqXAzj9J_sWFw-ep4w4qTQOpA2A_-5ieAzwoP62M/edit?tab=t.0)
 [![Google Docs](https://img.shields.io/badge/Google%20Docs-blue?style=flat)](https://docs.google.com/document/d/1lgbiqXAzj9J_sWFw-ep4w4qTQOpA2A_-5ieAzwoP62M/edit?tab=t.0)
 
-[Презентация по хакатону](https://drive.google.com/file/d/1lXNkq6ADhXyugW23C4b5t-7YkujMGFh8/view?usp=sharing) ОБНОВИТЬ ПРЕЗЕНТАЦИЮ
+[Презентация по кейс-чемпионату](https://drive.google.com/file/d/1lXNkq6ADhXyugW23C4b5t-7YkujMGFh8/view?usp=sharing) ОБНОВИТЬ ПРЕЗЕНТАЦИЮ
 [![PowerPoint](https://img.shields.io/badge/PowerPoint-darkorange?style=flat&logo=microsoft-powerpoint)](https://drive.google.com/file/d/1lXNkq6ADhXyugW23C4b5t-7YkujMGFh8/view?usp=sharing)
 
 [UI-дизайн в Figma](https://www.figma.com/proto/TxoDBBFjM9KUHfCgTVmDLb/GPN_final?node-id=2-780&t=gy4Vn8H3mLjulGLf-1)
