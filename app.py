@@ -519,7 +519,6 @@ elif st.session_state.role == "hr":
         top10_comps      = all_grades.value_counts().head(10)
 
         # 5. Цветовые палитры
-        import matplotlib.cm as cm
         cmap_prof = cm.get_cmap("tab10", len(profession_names))
         colors_prof = {prof: cmap_prof(i) for i, prof in enumerate(profession_names)}
         cmap_comp = cm.get_cmap("tab20", len(top10_comps))
@@ -562,65 +561,23 @@ elif st.session_state.role == "hr":
             ax4.set_ylabel("Частота")
             st.pyplot(fig4)
 
-        # Для каждого грейда берём первые 5 наиболее частых компетенций
+        # ─── Топ‑5 компетенций по грейдам ─────────────────────────────────────────────
+        # Собираем топ‑5 компетенций для каждого грейда
         top5 = {
             i: df_all[f"grade{i}"].explode().value_counts().head(5)
             for i in range(4)
         }
 
-        # 1) Собираем все компетенции из топ-5 каждого грейда
-        all_top5 = []
+        st.markdown("## Топ‑5 компетенций по грейдам")
         for i in range(4):
-            all_top5 += top5[i].index.tolist()
-        unique_comps = list(dict.fromkeys(all_top5))  # сохраняем порядок появления
-
-        # 2) Берём одну палитру tab20 и создаём map: компетенция → цвет
-        cmap = cm.get_cmap("tab20", len(unique_comps))
-        color_map = {comp: cmap(idx) for idx, comp in enumerate(unique_comps)}
-
-        # 3) Строим по две колонки на ряд
-        row3 = st.columns(2)
-        with row3[0]:
-            st.markdown("### Топ-5 компетенций грейда 0")
-            fig_g0, ax_g0 = plt.subplots(figsize=(4, 3), constrained_layout=True)
-            data0 = top5[0]
-            comps0 = data0.index[::-1]
-            vals0  = data0.values[::-1]
-            ax_g0.barh(comps0, vals0, color=[color_map[c] for c in comps0])
-            ax_g0.set_xlabel("Частота")
-            ax_g0.tick_params(axis="y", rotation=45, labelsize=6)
-            st.pyplot(fig_g0)
-
-        with row3[1]:
-            st.markdown("### Топ-5 компетенций грейда 1")
-            fig_g1, ax_g1 = plt.subplots(figsize=(4, 3), constrained_layout=True)
-            data1 = top5[1]
-            comps1 = data1.index
-            vals1  = data1.values
-            ax_g1.bar(comps1, vals1, color=[color_map[c] for c in comps1])
-            ax_g1.set_ylabel("Частота")
-            ax_g1.tick_params(axis="x", rotation=45, labelsize=6)
-            st.pyplot(fig_g1)
-
-        row4 = st.columns(2)
-        with row4[0]:
-            st.markdown("### Топ-5 компетенций грейда 2")
-            fig_g2, ax_g2 = plt.subplots(figsize=(4, 3), constrained_layout=True)
-            data2 = top5[2]
-            comps2 = data2.index
-            vals2  = data2.values
-            ax_g2.bar(comps2, vals2, color=[color_map[c] for c in comps2])
-            ax_g2.set_ylabel("Частота")
-            ax_g2.tick_params(axis="x", rotation=45, labelsize=6)
-            st.pyplot(fig_g2)
-
-        with row4[1]:
-            st.markdown("### Топ-5 компетенций грейда 3")
-            fig_g3, ax_g3 = plt.subplots(figsize=(4, 3), constrained_layout=True)
-            data3 = top5[3]
-            comps3 = data3.index[::-1]
-            vals3  = data3.values[::-1]
-            ax_g3.barh(comps3, vals3, color=[color_map[c] for c in comps3])
-            ax_g3.set_xlabel("Частота")
-            ax_g3.tick_params(axis="y", rotation=45, labelsize=6)
-            st.pyplot(fig_g3)
+            # Преобразуем Series в DataFrame
+            df_top = top5[i].rename_axis("Компетенция").reset_index(name="Частота")
+    
+            st.subheader(f"Грейд {i}")
+            # Таблица с цифрами
+            st.table(df_top)
+            # И встроенный bar‑chart
+            st.bar_chart(
+                df_top.set_index("Компетенция")["Частота"],
+                use_container_width=True
+            )
