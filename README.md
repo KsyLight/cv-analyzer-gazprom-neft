@@ -137,7 +137,7 @@ CV-Analyzer – это веб-сервис для автоматизирован
 
 ## ML-схема (реализована частисно, остальная часть теоретический вариант развития)
 <div align="center">
-  <img src="others/ML-схема_new.png" alt="ML-схема" style="width:90%; max-width:1200px; height:auto;" />
+  <img src="others/ML_схема_new_new.png" alt="ML-схема" style="width:90%; max-width:1200px; height:auto;" />
 </div>
 
 ## Структура проекта
