@@ -16,7 +16,7 @@
 [Документация в Google Docs](https://docs.google.com/document/d/1lgbiqXAzj9J_sWFw-ep4w4qTQOpA2A_-5ieAzwoP62M/edit?tab=t.0)
 [![Google Docs](https://img.shields.io/badge/Google%20Docs-blue?style=flat)](https://docs.google.com/document/d/1lgbiqXAzj9J_sWFw-ep4w4qTQOpA2A_-5ieAzwoP62M/edit?tab=t.0)
 
-[Презентация по кейс-чемпионату](https://docs.google.com/presentation/d/1zKM0Cu-2Fsw2Ne4SexdklR0YzrQDRNpW/edit?usp=sharing&ouid=107089516381187897369&rtpof=true&sd=true) ОБНОВИТЬ ПРЕЗЕНТАЦИЮ
+[Презентация по кейс-чемпионату](https://docs.google.com/presentation/d/1zKM0Cu-2Fsw2Ne4SexdklR0YzrQDRNpW/edit?usp=sharing&ouid=107089516381187897369&rtpof=true&sd=true)
 [![PowerPoint](https://img.shields.io/badge/PowerPoint-darkorange?style=flat&logo=microsoft-powerpoint)](https://docs.google.com/presentation/d/1zKM0Cu-2Fsw2Ne4SexdklR0YzrQDRNpW/edit?usp=sharing&ouid=107089516381187897369&rtpof=true&sd=true)
 
 [UI-дизайн в Figma](https://www.figma.com/proto/TxoDBBFjM9KUHfCgTVmDLb/GPN_final?node-id=2-780&t=gy4Vn8H3mLjulGLf-1)
