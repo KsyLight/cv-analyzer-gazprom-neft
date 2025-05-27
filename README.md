@@ -17,7 +17,6 @@
 [![Google Docs](https://img.shields.io/badge/Google%20Docs-blue?style=flat)](https://docs.google.com/document/d/1lgbiqXAzj9J_sWFw-ep4w4qTQOpA2A_-5ieAzwoP62M/edit?tab=t.0)
 
 [Презентация по кейс-чемпионату](https://drive.google.com/file/d/1Be9Pca9P6uIGAAqZsDJsRtJs4NKiP15Y/view?usp=sharing)
-[![PowerPoint](https://img.shields.io/badge/PowerPoint-darkorange?style=flat&logo=microsoft-powerpoint)](https://drive.google.com/file/d/1Be9Pca9P6uIGAAqZsDJsRtJs4NKiP15Y/view?usp=sharing)
 
 [UI-дизайн в Figma](https://www.figma.com/proto/TxoDBBFjM9KUHfCgTVmDLb/GPN_final?node-id=2-780&t=gy4Vn8H3mLjulGLf-1)
 [![Figma](https://img.shields.io/badge/Figma-ff5c00?style=flat&logo=figma&logoColor=white)](https://www.figma.com/proto/TxoDBBFjM9KUHfCgTVmDLb/GPN_final?node-id=2-780&t=gy4Vn8H3mLjulGLf-1)
