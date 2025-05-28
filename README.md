@@ -7,6 +7,14 @@
 
 # **Пароль для сервиса в HR-пути: duduki**
 
+## Контакты
+
+@s_Akim_s Аким
+@oknelisavroge Егор
+@klevkina Катя
+@anyucxx Аня
+@Madoka_wg Максим
+
 ---
 
 <p align="center">
