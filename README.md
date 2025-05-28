@@ -7,6 +7,24 @@
 
 # **Пароль для сервиса в HR-пути: duduki**
 
+<p align="center">
+  <img src="others/logo.png" alt="Логотип проекта" width="200"/>
+</p>
+
+## 🔗 Ссылки
+
+[Веб‑приложение](https://cv-analyzer-gpn.ru/) [![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat)](https://cv-analyzer-gpn.ru/)
+
+[Документация в Google Docs](https://docs.google.com/document/d/1lgbiqXAzj9J_sWFw-ep4w4qTQOpA2A_-5ieAzwoP62M/edit?tab=t.0)
+[![Google Docs](https://img.shields.io/badge/Google%20Docs-blue?style=flat)](https://docs.google.com/document/d/1lgbiqXAzj9J_sWFw-ep4w4qTQOpA2A_-5ieAzwoP62M/edit?tab=t.0)
+
+[Презентация по кейс-чемпионату](https://drive.google.com/file/d/1Be9Pca9P6uIGAAqZsDJsRtJs4NKiP15Y/view?usp=sharing)
+
+[UI-дизайн в Figma](https://www.figma.com/proto/TxoDBBFjM9KUHfCgTVmDLb/GPN_final?node-id=2-780&t=gy4Vn8H3mLjulGLf-1)
+[![Figma](https://img.shields.io/badge/Figma-ff5c00?style=flat&logo=figma&logoColor=white)](https://www.figma.com/proto/TxoDBBFjM9KUHfCgTVmDLb/GPN_final?node-id=2-780&t=gy4Vn8H3mLjulGLf-1)
+
+---
+
 ## Наша команда
 
 <div align="center">
@@ -59,22 +77,6 @@
 - Разработка дизайна для сервиса, UX/UI
 
 ---
-
-<p align="center">
-  <img src="others/logo.png" alt="Логотип проекта" width="200"/>
-</p>
-
-## 🔗 Ссылки
-
-[Веб‑приложение](https://cv-analyzer-gpn.ru/) [![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat)](https://cv-analyzer-gpn.ru/)
-
-[Документация в Google Docs](https://docs.google.com/document/d/1lgbiqXAzj9J_sWFw-ep4w4qTQOpA2A_-5ieAzwoP62M/edit?tab=t.0)
-[![Google Docs](https://img.shields.io/badge/Google%20Docs-blue?style=flat)](https://docs.google.com/document/d/1lgbiqXAzj9J_sWFw-ep4w4qTQOpA2A_-5ieAzwoP62M/edit?tab=t.0)
-
-[Презентация по кейс-чемпионату](https://drive.google.com/file/d/1Be9Pca9P6uIGAAqZsDJsRtJs4NKiP15Y/view?usp=sharing)
-
-[UI-дизайн в Figma](https://www.figma.com/proto/TxoDBBFjM9KUHfCgTVmDLb/GPN_final?node-id=2-780&t=gy4Vn8H3mLjulGLf-1)
-[![Figma](https://img.shields.io/badge/Figma-ff5c00?style=flat&logo=figma&logoColor=white)](https://www.figma.com/proto/TxoDBBFjM9KUHfCgTVmDLb/GPN_final?node-id=2-780&t=gy4Vn8H3mLjulGLf-1)
 
 ## Стек анализируемых профессий в соответствии с матрицей [Альянса ИИ](https://a-ai.ru/)
 
