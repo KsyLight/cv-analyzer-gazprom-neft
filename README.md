@@ -7,13 +7,13 @@
 
 # **Пароль для сервиса в HR-пути: duduki**
 
-## Контакты
+## Контакты (Telegram)
 
-@s_Akim_s Аким
-@oknelisavroge Егор
-@klevkina Катя
-@anyucxx Аня
-@Madoka_wg Максим
+- @s_Akim_s Аким 
+- @oknelisavroge Егор
+- @klevkina Катя
+- @anyucxx Аня
+- @Madoka_wg Максим
 
 ---
 
