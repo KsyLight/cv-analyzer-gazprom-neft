@@ -283,35 +283,6 @@ google-api-python-client
 
 ---
 
-## Наша команда
-
-<div align="center">
-  <table>
-    <tr>
-      <td align="center">
-        <img src="https://github.com/KsyLight.png?size=100" width="100" alt="Егор"/>
-        <p><strong>Егор</strong><br/><a href="https://github.com/KsyLight">KsyLight</a></p>
-      </td>
-      <td align="center">
-        <img src="https://github.com/Akim-norfeg.png?size=100" width="100" alt="Аким"/>
-        <p><strong>Аким</strong><br/><a href="https://github.com/Akim-norfeg">Akim-norfeg</a></p>
-      </td>
-      <td align="center">
-        <img src="https://github.com/Swagozavr.png?size=100" width="100" alt="Максим"/>
-        <p><strong>Максим</strong><br/><a href="https://github.com/Swagozavr">Swagozavr</a></p>
-      </td>
-      <td align="center">
-        <img src="https://github.com/klevkina.png?size=100" width="100" alt="Катя"/>
-        <p><strong>Катя</strong><br/><a href="https://github.com/klevkina">klevkina</a></p>
-      </td>
-      <td align="center">
-        <img src="https://github.com/kwarkw.png?size=100" width="100" alt="Аня"/>
-        <p><strong>Аня</strong><br/><a href="https://github.com/kwarkw">kwarkw</a></p>
-      </td>
-    </tr>
-  </table>
-</div>
-
 <div align="center">
   <img src="others/cat.jpg" alt="Котик AI" style="width:90%; max-width:1200px; height:auto;" />
 </div>
